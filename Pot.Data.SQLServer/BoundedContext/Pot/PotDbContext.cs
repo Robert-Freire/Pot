@@ -4,16 +4,19 @@ namespace Pot.Data.SQLServer
 
     using global::Pot.Data.Model;
 
-    public partial class Pot : DbContext
+    public class PotDbContext : DbContext
     {
-        public Pot()
+        public PotDbContext()
             : base("name=Pot")
         {
         }
 
         public virtual DbSet<Expense> Expenses { get; set; }
+
         public virtual DbSet<Project> Projects { get; set; }
+
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
+
         public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

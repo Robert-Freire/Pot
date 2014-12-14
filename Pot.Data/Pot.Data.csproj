@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infraestructure\IContextFactoryAsync.cs" />
+    <Compile Include="Infraestructure\IUnitOfWorkAsync.cs" />
+    <Compile Include="Infraestructure\SaveStatus.cs" />
+    <Compile Include="Infraestructure\IRepositoryAsync.cs" />
+    <Compile Include="Infraestructure\IRepository.cs" />
+    <Compile Include="Infraestructure\IUnitOfWork.cs" />
     <Compile Include="Model\Expense.cs" />
     <Compile Include="Model\Project.cs" />
     <Compile Include="Model\ProjectUser.cs" />

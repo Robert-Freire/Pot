@@ -11,8 +11,8 @@
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Pot</RootNamespace>
-    <AssemblyName>Pot</AssemblyName>
+    <RootNamespace>Pot.Web.Api</RootNamespace>
+    <AssemblyName>Pot.Web.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -85,10 +85,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Exceptions\ErrorLog.cs" />
+    <Compile Include="Extensions\ApiControllerExtension.cs" />
+    <Compile Include="Extensions\TaskExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Model\UserResource.cs" />
+    <Compile Include="Model\IMapResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\ValidationsErrorResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -101,10 +109,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Pot.Data.SQLServer\Pot.Data.SQLServer.csproj">
+      <Project>{51bfb198-ba26-46cf-afa7-bc81a000ea11}</Project>
+      <Name>Pot.Data.SQLServer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pot.Data\Pot.Data.csproj">
       <Project>{96DC9F6D-C064-41AC-803A-4E96114422D2}</Project>
       <Name>Pot.Data</Name>
