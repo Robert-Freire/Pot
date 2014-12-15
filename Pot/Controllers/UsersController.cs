@@ -22,7 +22,6 @@
         public UsersController(IUserFactory userFactory)
             : base(userFactory, userFactory.UsersRepository, new UserResource())
         {
-
             //this.authFactory = authFactory;
             //this.authUserRepository = authFactory.AuthUserRepository;
             //this.authUnitOfWork = authFactory.UnitOfWorkAsync;
