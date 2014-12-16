@@ -11,9 +11,8 @@
     using Pot.Data.SQLServer;
     using Pot.Web.Api.Model;
 
-    public class UsersController :  BaseController<User, UserResource>
+    public class UsersController : BaseController<User, UserResource>
     {
-  
         /// <summary>
         /// The uri base for use in test.
         /// </summary>
@@ -22,14 +21,11 @@
         public UsersController(IUserFactory userFactory)
             : base(userFactory, userFactory.UsersRepository, new UserResource())
         {
-            //this.authFactory = authFactory;
-            //this.authUserRepository = authFactory.AuthUserRepository;
-            //this.authUnitOfWork = authFactory.UnitOfWorkAsync;
         }
 
-        /// GET: api/Customers
+        /// GET: api/Users
         /// <summary>
-        /// The get customers.
+        /// The get Users.
         /// </summary>
         /// <returns>
         /// The <see cref="IQueryable"/>.
@@ -39,12 +35,12 @@
             return await this.GetAll();
         }
 
-        /// GET: api/Customers/5
+        /// GET: api/Users/5
         /// <summary>
-        /// The get customer.
+        /// The get users.
         /// </summary> 
         /// <param name="id">
-        /// The customer id.
+        /// The users id.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -57,18 +53,18 @@
         [ResponseType(typeof(UserResource))]
         public async Task<IHttpActionResult> GetUser(Guid id)
         {
-            return await this.Get(w => w.UserId == id, CustomerIncludes.All.GetIncludes());
+            return await this.Get(w => w.UserId == id, null);
         }
 
-        /// PUT: api/Customers/5
+        /// PUT: api/Users/5
         /// <summary>
         /// The put.
         /// </summary>
         /// <param name="id">
         /// The id.
         /// </param>
-        /// <param name="customerResource">
-        /// The customer Resource.
+        /// <param name="usersResource">
+        /// The users Resource.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -82,22 +78,22 @@
         ///     If all is ok:                                           No Content              (204)                
         /// </remarks>
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCustomer(Guid id, CustomerResource customerResource)
+        public async Task<IHttpActionResult> PutUser(Guid id, UserResource usersResource)
         {
-            if (id != customerResource.idCustomer)
+            if (id != usersResource.UserId)
             {
                 return this.BadRequest();
             }
 
-            return await this.Put(id, customerResource);
+            return await this.Put(id, usersResource);
         }
 
-        /// POST: api/Customers
+        /// POST: api/Users
         /// <summary>
-        /// Creates a customer.
+        /// Creates a users.
         /// </summary>
-        /// <param name="customer">
-        /// The customer.
+        /// <param name="users">
+        /// The users.
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -109,64 +105,41 @@
         ///     If data has already been updated for other process:     Conflict Response       (409)       
         ///     If all is ok:                                           ok Response             (200)          
         /// </remarks>
-        [ResponseType(typeof(CustomerResource))]
+        [ResponseType(typeof(UserResource))]
         [AllowAnonymous]
-        public async Task<IHttpActionResult> PostCustomer(CustomerResource customer)
+        public async Task<IHttpActionResult> PostUser(UserResource users)
         {
             var createdUser = (this.User == null) || (this.User.Identity == null)
                               || string.IsNullOrWhiteSpace(this.User.Identity.Name)
-                ? customer.name
+                ? users.Name
                 : this.User.Identity.Name;
 
-            var result = await this.Post(customer.idCustomer, customer, createdUser);
+            var result = await this.Post(users.UserId, users, createdUser);
 
-            var response = result as OkNegotiatedContentResult<Customer>;
+            var response = result as OkNegotiatedContentResult<User>;
             if (response != null)
             {
-                // TODO To translate the logic of create users and authorithations at a new service
-                await this.authUserRepository.Insert(customer.MapTo());
-                await this.authUnitOfWork.SaveChangesAsync();
-
-                var customerInserted = await this.BaseRepository.SingleAsync(w => w.IdCustomer == response.Content.IdCustomer, CustomerIncludes.All.GetIncludes());
-                return this.CreatedAtRoute(WebApiConfig.DefaultApi, new { id = customerInserted.IdCustomer }, customer.MapFrom(customerInserted));
+                var usersInserted = await this.BaseRepository.SingleAsync(w => w.UserId == response.Content.UserId, null);
+                return this.CreatedAtRoute(WebApiConfig.DefaultApi, new { id = usersInserted.UserId }, users.MapFrom(usersInserted));
             }
 
             return result;
         }
 
-        /// DELETE: api/Customers/5
+        /// DELETE: api/Users/5
         /// <summary>
-        /// Delete Customer
+        /// Delete User
         /// </summary>
         /// <param name="id">
-        /// Customer id
+        /// User id
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        [ResponseType(typeof(CustomerResource))]
-        public async Task<IHttpActionResult> DeleteCustomer(Guid id)
+        [ResponseType(typeof(UserResource))]
+        public async Task<IHttpActionResult> DeleteUser(Guid id)
         {
             return await this.Delete(id);
         }
-
-        /// <summary>
-        /// The dispose.
-        /// </summary>
-        /// <param name="disposing">
-        /// The disposing.
-        /// </param>
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                this.authUnitOfWork.Dispose();
-                this.authFactory.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
-    }
-}
     }
 }

@@ -7,7 +7,9 @@ using System.Web.Routing;
 
 namespace Pot
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    using Pot.Web.Api;
+
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {

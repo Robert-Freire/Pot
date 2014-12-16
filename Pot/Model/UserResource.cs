@@ -2,6 +2,8 @@
 {
     using System;
 
+    using AutoMapper;
+
     using Pot.Data.Model;
 
     public class UserResource: IMapResource<User, UserResource>

@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pot.Data", "Pot.Data\Pot.Da
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pot.Data.SQLServer", "Pot.Data.SQLServer\Pot.Data.SQLServer.csproj", "{51BFB198-BA26-46CF-AFA7-BC81A000EA11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pot.Web.Api.Unit.Tests", "Pot.Web.Api.UnitTests\Pot.Web.Api.Unit.Tests.csproj", "{03F19DE5-1DE1-43E8-9383-177F80B97BA3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pot.Web.Api.Integration.Tests", "Pot.Web.Api.Integration.Tests\Pot.Web.Api.Integration.Tests.csproj", "{66599C7A-7251-4DC6-BCAE-2F5B9EFF6042}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{51BFB198-BA26-46CF-AFA7-BC81A000EA11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{51BFB198-BA26-46CF-AFA7-BC81A000EA11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BFB198-BA26-46CF-AFA7-BC81A000EA11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03F19DE5-1DE1-43E8-9383-177F80B97BA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03F19DE5-1DE1-43E8-9383-177F80B97BA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03F19DE5-1DE1-43E8-9383-177F80B97BA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03F19DE5-1DE1-43E8-9383-177F80B97BA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66599C7A-7251-4DC6-BCAE-2F5B9EFF6042}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66599C7A-7251-4DC6-BCAE-2F5B9EFF6042}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66599C7A-7251-4DC6-BCAE-2F5B9EFF6042}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66599C7A-7251-4DC6-BCAE-2F5B9EFF6042}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
