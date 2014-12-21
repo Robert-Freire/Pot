@@ -1,51 +1,43 @@
-﻿//// --------------------------------------------------------------------------------------------------------------------
-//// <copyright file="UserTests.cs" company="Nova Language Services">
-////   Copyright © Nova Language Services 2014
-//// </copyright>
-//// <summary>
-////   The user.
-//// </summary>
-//// --------------------------------------------------------------------------------------------------------------------
+﻿namespace Pot.Web.Api.Unit.Tests
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
-//namespace Pot.Web.Api.Unit.Tests
-//{
-//    using System;
-//    using System.Collections.Generic;
-//    using System.Linq;
-//    using System.Threading.Tasks;
+    using FluentAssertions;
 
-//    using FluentAssertions;
+    using Moq;
 
-//    using Moq;
+    using NUnit.Framework;
 
-//    using NUnit.Framework;
+    using Pot.Data.BoundedContext.Pot;
+    using Pot.Data.Model;
+    using Pot.Web.Api.Controllers;
+    using Pot.Web.Api.Model;
 
-//    using Pot.Data.Model;
-//    using Pot.Web.Api.Controllers;
-//    using Pot.Web.Api.Model;
+    /// <summary>
+    /// The user.
+    /// </summary>
+    [TestFixture]
+    public class UserTests
+    {
+        /// <summary>
+        /// The get all users when there are two users then returns two users.
+        /// </summary>
+        [Test]
+        public void GetAllUsers_ThereAreTwoUsers_ReturnsTwoUsers()
+        {
+            // Arrange
+            var users = new DefaultSavedUsers().GetUsers();
+            var userController = UserControllerMockFactory(users);
 
-//    /// <summary>
-//    /// The user.
-//    /// </summary>
-//    [TestFixture]
-//    public class UserTests
-//    {
-//        /// <summary>
-//        /// The get all users when there are two users then returns two users.
-//        /// </summary>
-//        [Test]
-//        public void GetAllUsers_ThereAreTwoUsers_ReturnsTwoUsers()
-//        {
-//            // Arrange
-//            var users = new DefaultSavedUsers().GetUsers();
-//            var userController = UserControllerMockFactory(users);
+            // Action
+            var result = userController.GetUsers().Result;
 
-//            // Action
-//            var result = userController.GetAll().Result;
-
-//            // Assert
-//            result.ShouldAllBeEquivalentTo(users);
-//        }
+            // Assert
+            result.Count().Should().Be(users.Count());
+        }
 
 //        /// <summary>
 //        /// The get user when there are no users then returns not found.
@@ -174,76 +166,76 @@
 //            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
 //        }
 
-//        /// <summary>
-//        /// The user controller mock factory.
-//        /// </summary>
-//        /// <param name="users">
-//        /// The users.
-//        /// </param>
-//        /// <param name="userFound">
-//        /// The user found.
-//        /// </param>
-//        /// <returns>
-//        /// The <see cref="UsersController"/>.
-//        /// </returns>
-//        private static UsersController UserControllerMockFactory(IEnumerable<User> users, User userFound = null)
-//        {
-//            AutomapperConfig.Initialize();
-//            var userContextMock = new UserContextFake();
-//            userContextMock.SetupSets(users.AsQueryable());
-//            var userRepositoryMock = new Mock<IUserRepository>();
-//            userRepositoryMock.Setup(cr => cr.FindAsync(It.IsAny<object>())).Returns(Task.FromResult(userFound));
+        /// <summary>
+        /// The user controller mock factory.
+        /// </summary>
+        /// <param name="users">
+        /// The users.
+        /// </param>
+        /// <param name="userFound">
+        /// The user found.
+        /// </param>
+        /// <returns>
+        /// The <see cref="UsersController"/>.
+        /// </returns>
+        private static UsersController UserControllerMockFactory(IEnumerable<User> users, User userFound = null)
+        {
+            AutomapperConfig.Initialize();
+            var userContextMock = new UserContextFake();
+            userContextMock.SetupSets(users.AsQueryable());
+            var userRepositoryMock = new Mock<IUserRepository>();
+            userRepositoryMock.Setup(cr => cr.FindAsync(It.IsAny<object>())).Returns(Task.FromResult(userFound));
 
-//            return new UsersController(new UserFactoryFake(userContextMock.Object, null, userRepositoryMock));
-//        }
+            return new UsersController(new UserFactoryFake(userContextMock.Object));
+        }
 
-//        /// <summary>
-//        /// The default saved users.
-//        /// </summary>
-//        private class DefaultSavedUsers
-//        {
-//            /// <summary>
-//            /// The user 1.
-//            /// </summary>
-//            private User user1;
+        /// <summary>
+        /// The default saved users.
+        /// </summary>
+        private class DefaultSavedUsers
+        {
+            /// <summary>
+            /// The user 1.
+            /// </summary>
+            private User user1;
 
-//            /// <summary>
-//            /// The user 2.
-//            /// </summary>
-//            private User user2;
+            /// <summary>
+            /// The user 2.
+            /// </summary>
+            private User user2;
 
-//            /// <summary>
-//            /// Gets the user 1.
-//            /// </summary>
-//            internal User User1
-//            {
-//                get
-//                {
-//                    return this.user1 ?? (this.user1 = new User { IdUser = Guid.NewGuid(), Name = "Cliente 1" });
-//                }
-//            }
+            /// <summary>
+            /// Gets the user 1.
+            /// </summary>
+            internal User User1
+            {
+                get
+                {
+                    return this.user1 ?? (this.user1 = new User { UserId = Guid.NewGuid(), Name = "Cliente 1" });
+                }
+            }
 
-//            /// <summary>
-//            /// Gets the user 2.
-//            /// </summary>
-//            internal User User2
-//            {
-//                get
-//                {
-//                    return this.user2 ?? (this.user2 = new User { IdUser = Guid.NewGuid(), Name = "Cliente 2" });
-//                }
-//            }
+            /// <summary>
+            /// Gets the user 2.
+            /// </summary>
+            internal User User2
+            {
+                get
+                {
+                    return this.user2 ?? (this.user2 = new User { UserId = Guid.NewGuid(), Name = "Cliente 2" });
+                }
+            }
 
-//            /// <summary>
-//            /// The get users list.
-//            /// </summary>
-//            /// <returns>
-//            /// The <see cref="IQueryable"/>.
-//            /// </returns>
-//            public IEnumerable<User> GetUsers()
-//            {
-//                return new List<User> { this.User1, this.User2 };
-//            }
-//        }
-//    }
-//}
+            /// <summary>
+            /// The get users list.
+            /// </summary>
+            /// <returns>
+            /// The <see cref="IQueryable"/>.
+            /// </returns>
+            public IEnumerable<User> GetUsers()
+            {
+                return new List<User> { this.User1, this.User2 };
+            }
+        }
+    }
+}

@@ -17,7 +17,7 @@ namespace Pot.Web.Api.Unit.Tests
         /// </summary>
         public GeneralMappingsTests()
         {
-   //         AutomapperConfig.Initialize();
+            AutomapperConfig.Initialize();
         }
 
         /// <summary>

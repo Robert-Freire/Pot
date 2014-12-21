@@ -7,6 +7,7 @@
     using System.Web.Http.Description;
     using System.Web.Http.Results;
 
+    using Pot.Data;
     using Pot.Data.Model;
     using Pot.Data.SQLServer;
     using Pot.Web.Api.Model;

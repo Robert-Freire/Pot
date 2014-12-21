@@ -1,5 +1,5 @@
 ﻿
-namespace Pot.Data.SQLServer
+namespace Pot.Data
 {
     using Pot.Data.Infraestructure;
     using Pot.Data.Model;

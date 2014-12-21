@@ -38,8 +38,10 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -47,9 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BoundedContext\Pot\IUserFactory.cs" />
+    <Compile Include="BoundedContext\Pot\UserFactory.cs" />
     <Compile Include="BoundedContext\Pot\PotDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utis\ContextFactory.cs" />
+    <Compile Include="Utis\Repository.cs" />
+    <Compile Include="Utis\UnitOfWork.cs" />
+    <Compile Include="Utis\EfSaveStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

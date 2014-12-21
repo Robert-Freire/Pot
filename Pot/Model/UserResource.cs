@@ -38,7 +38,9 @@
         {
             Mapper.CreateMap<User, UserResource>();
 
-            Mapper.CreateMap<UserResource, User>();
+            Mapper.CreateMap<UserResource, User>()
+                .ForMember(u => u.ProjectUsers, opt => opt.Ignore())
+                .ForMember(u => u.Expenses, opt => opt.Ignore());
         }
     }
 }
