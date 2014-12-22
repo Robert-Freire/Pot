@@ -31,14 +31,15 @@ namespace Pot.Web.Api
         /// <param name="app">
         /// The app.
         /// </param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "the config is used after los this scope")]
+        [SuppressMessage("Microsoft.Reliability", "CA2000:Dispose objects before losing scope", Justification = "the config is used after los this scope")]
         public void Configuration(IAppBuilder app)
         {
             var config = new HttpConfiguration();
 
             this.ConfigureOAuth(app);
 
-            WebApiConfig.Register(config);
+            config.RegisterWebApi();
+            config.RegisterUnityComponents();
 
             //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);

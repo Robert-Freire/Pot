@@ -8,9 +8,9 @@
     using Pot.Data.SQLServer.Utis;
 
 
-    public abstract class UserFactory : ContextFactory, IUserFactory
+    public class UserFactory : ContextFactory, IUserFactory
     {
-        public UserFactory(DbContext dbContext )
+        public UserFactory(PotDbContext dbContext)
             : base(dbContext)
         {
         }

@@ -119,8 +119,8 @@
       <Project>{96DC9F6D-C064-41AC-803A-4E96114422D2}</Project>
       <Name>Pot.Data</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Pot\Pot.Web.Api.csproj">
-      <Project>{2BA20D78-9EDA-4B5E-A4A8-07A6631EF549}</Project>
+    <ProjectReference Include="..\Pot.Web.Api\Pot.Web.Api.csproj">
+      <Project>{2ba20d78-9eda-4b5e-a4a8-07a6631ef549}</Project>
       <Name>Pot.Web.Api</Name>
     </ProjectReference>
   </ItemGroup>

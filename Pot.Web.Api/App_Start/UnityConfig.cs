@@ -7,11 +7,14 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace NWL.Web.Api
+namespace Pot.Web.Api
 {
     using System.Web.Http;
 
     using Microsoft.Practices.Unity;
+
+    using Pot.Data;
+    using Pot.Data.SQLServer;
 
     /// <summary>
     /// The unity config.
@@ -24,7 +27,7 @@ namespace NWL.Web.Api
         /// <param name="config">
         /// The config.
         /// </param>
-        public static void RegisterComponents(HttpConfiguration config)
+        public static void RegisterUnityComponents(this HttpConfiguration config)
         {
             if (config == null)
             {
@@ -33,13 +36,13 @@ namespace NWL.Web.Api
 
             var container = new UnityContainer();
 
-            //container.RegisterType<ICustomerFactory, CustomerFactory>()
-            //         .RegisterType<ICustomerContext, CustomerContext>(new HierarchicalLifetimeManager());
+            container.RegisterType<IUserFactory, UserFactory>();
+             //        .RegisterType<IPotContext, CustomerContext>(new HierarchicalLifetimeManager());
 
 
             //container.RegisterType<IAuthFactory, AuthFactory>();
 
-            //config.DependencyResolver = new UnityResolver(container);
+            config.DependencyResolver = new UnityResolver(container);
         }
     }
 }
