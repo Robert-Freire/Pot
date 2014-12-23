@@ -99,7 +99,6 @@
     <Compile Include="Fakes\Utils\TestDbAsyncEnumerable.cs" />
     <Compile Include="Fakes\Utils\TestDbAsyncEnumerator.cs" />
     <Compile Include="Fakes\Utils\DbSetMock.cs" />
-    <Compile Include="Utils\UserTestExtension.cs" />
     <Compile Include="Controllers\UserTests.cs" />
     <Compile Include="Fakes\Users\UserContextFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -118,6 +117,10 @@
     <ProjectReference Include="..\Pot.Data\Pot.Data.csproj">
       <Project>{96DC9F6D-C064-41AC-803A-4E96114422D2}</Project>
       <Name>Pot.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pot.Web.Api.Tests.Utils\Pot.Web.Api.Tests.Utils.csproj">
+      <Project>{19502259-6f7f-45e9-9b5c-93a194f9e4c5}</Project>
+      <Name>Pot.Web.Api.Tests.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Pot.Web.Api\Pot.Web.Api.csproj">
       <Project>{2ba20d78-9eda-4b5e-a4a8-07a6631ef549}</Project>

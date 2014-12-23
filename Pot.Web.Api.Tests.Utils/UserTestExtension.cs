@@ -1,5 +1,6 @@
 ﻿namespace Pot.Web.Api.Unit.Tests
 {
+    using System;
     using System.Net.Http;
     using System.Web.Http;
     using System.Web.Http.Results;
@@ -13,7 +14,18 @@
 
     internal static class UserTestExtension
     {
-        internal static UserResource GetCustomerResource(HttpResponseMessage response)
+        internal static UserResource GetDefault()
+        {
+
+            return new UserResource
+            {
+                Name = "Customer",
+                UserId = Guid.NewGuid(),
+                Mail = "newMail@mail.com"
+            };
+        }
+
+        internal static UserResource GetUserResource(this HttpResponseMessage response)
         {
             return JsonConvert.DeserializeObject<UserResource>(response.Content.ReadAsStringAsync().Result);
         }
@@ -35,6 +47,18 @@
             result.Should().BeOfType(typeof(OkNegotiatedContentResult<UserResource>));
             var userResource = ((OkNegotiatedContentResult<UserResource>)result).Content;
             userResource.ShouldBeEquivalentToUser(user);
+        }
+
+        internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, User user)
+        {
+            var userResource = GetUserResource(response);
+            userResource.ShouldBeEquivalentToUser(user);
+        }
+
+        internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, UserResource user)
+        {
+            var userResource = GetUserResource(response);
+            userResource.ShouldBeEquivalentTo(user, opt=> opt.Excluding(f => f.Version));
         }
     }
 }

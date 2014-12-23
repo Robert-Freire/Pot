@@ -36,6 +36,25 @@ namespace Pot.Web.Api.Integration.Tests.Utils
             this.AddTestsUsers(context);
         }
 
+        private User userOriginal;
+        public User UserOriginal
+        {
+            get
+            {
+                return this.userOriginal
+                       ?? (this.userOriginal = new User { Mail = "original@test.com", Name = "original", UserId = Guid.NewGuid() });
+            }
+        }
+
+        private User userDefaultTest;
+        public User UserDefaultTest
+        {
+            get
+            {
+                return this.userDefaultTest
+                       ?? (this.userDefaultTest = new User { Mail = "test1@test.com", Name = "tes1", UserId = Guid.NewGuid() });
+            }
+        }
         /// <summary>
         /// The customers tests seeds initializer.
         /// </summary>
@@ -44,11 +63,11 @@ namespace Pot.Web.Api.Integration.Tests.Utils
         /// </param>
         private void AddTestsUsers(PotDbContext context)
         {
-            var user1 = new User { Mail = "test1@test.com", Name = "tes1", UserId = Guid.NewGuid() };
-            var user2 = new User { Mail = "test2@test.com", Name = "tes2", UserId = Guid.NewGuid() };
+           var user2 = new User { Mail = "test2@test.com", Name = "tes2", UserId = Guid.NewGuid() };
 
-            context.Users.Add(user1);
+            context.Users.Add(this.UserDefaultTest);
             context.Users.Add(user2);
+            context.Users.Add(this.UserOriginal);
         }
     }
 }

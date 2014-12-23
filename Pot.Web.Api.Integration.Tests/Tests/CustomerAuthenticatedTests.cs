@@ -11,7 +11,6 @@ namespace NWL.Web.API.OWIN.Integration.Tests
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Net;
 
     using FluentAssertions;
@@ -20,13 +19,14 @@ namespace NWL.Web.API.OWIN.Integration.Tests
 
     using NUnit.Framework;
 
-    using Pot.Data.BoundedContext.Pot;
     using Pot.Data.Infraestructure;
     using Pot.Data.Model;
     using Pot.Data.SQLServer;
+    using Pot.Web.Api;
     using Pot.Web.Api.Controllers;
     using Pot.Web.Api.Integration.Tests.Utils;
     using Pot.Web.Api.Model;
+    using Pot.Web.Api.Unit.Tests;
 
     /// <summary>
     /// The customer OWIN authenticated tests.
@@ -81,247 +81,134 @@ namespace NWL.Web.API.OWIN.Integration.Tests
             }
         }
 
-        ///// <summary>
-        ///// The get customer if there are no customers then returns not found.
-        ///// </summary>
-        //[Test]
-        //public void GetCustomer_ThereAreNoCustomer_ReturnsNotFound()
-        //{
-        //    this.uri = CustomersController.UriBase + Guid.NewGuid();
+        /// <summary>
+        /// The get customer if there are no customers then returns not found.
+        /// </summary>
+        [Test]
+        public void GetCustomer_ThereAreNoCustomer_ReturnsNotFound()
+        {
+            this.uri = UsersController.UriBase + Guid.NewGuid();
 
-        //    using (var response = this.GetAsync().Result)
-        //    {
-        //        // Assert
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.NotFound);
-        //    }
-        //}
+            using (var response = this.GetAsync().Result)
+            {
+                // Assert
+                response.Should().NotBeNull();
+                response.StatusCode.ShouldBeEquivalentTo(HttpStatusCode.NotFound);
+            }
+        }
 
-        ///// <summary>
-        ///// The get customer there are one customers returns customer
-        ///// </summary>
-        //[Test]
-        //public void GetCustomer_ThereAreCustomer_ReturnsCustomer()
-        //{
-        //    this.uri = CustomersController.UriBase + TestsDb.CustomerWithoutModificationsTest.IdCustomer;
-        //    using (var response = this.GetAsync(Language.English).Result)
-        //    {
-        //        // Assert
-        //        response.Should().NotBeNull();
-        //        var customerResource = CustomerResourceTestExtension.GetCustomerResource(response);
-        //        customerResource.ShouldBeEquivalentToCustomer(TestsDb.CustomerWithoutModificationsTest, Language.English);
-        //    }
-        //}
+        /// <summary>
+        /// The get customer there are one customers returns customer
+        /// </summary>
+        [Test]
+        public void GetCustomer_ThereAreCustomer_ReturnsCustomer()
+        {
+            this.uri = UsersController.UriBase + TestsDb.UserOriginal.UserId;
+            using (var response = this.GetAsync().Result)
+            {
+                // Assert
+                response.Should().NotBeNull();
+                response.ShouldBeEquivalentTo(TestsDb.UserOriginal);
+            }
+        }
 
-        ///// <summary>
-        ///// The get customer set language spanish there are customer returns customer with country and payment in spanish.
-        ///// </summary>
-        //[Test]
-        //public void GetCustomerSetLanguageSpanish_ThereAreCustomer_ReturnsCustomerWithCountryAndPaymentInSpanish()
-        //{
-        //    // Arrange
-        //    this.uri = CustomersController.UriBase + TestsDb.CustomerWithoutModificationsTest.IdCustomer;
-        //    using (var response = this.GetAsync(Language.Spanish).WithCurrentCulture().GetResult())
-        //    {
-        //        // Assert
-        //        response.Should().NotBeNull();
-        //        var customerResource = CustomerResourceTestExtension.GetCustomerResource(response);
-        //        customerResource.ShouldBeEquivalentToCustomer(
-        //            BaseServerTest.TestsDb.CustomerWithoutModificationsTest,
-        //            Language.Spanish);
-        //    }
-        //}
+        /// <summary>
+        /// The update customer if the customer is correct then returns no data.
+        /// </summary>
+        [Test]
+        public void UpdateCustomer_CustomerIsCorrect_ReturnsNoData()
+        {
+            // Arrange
+            var userToModify = this.GetUser(TestsDb.UserDefaultTest.UserId);
+            userToModify.Name = "Modified User";
 
-        ///// <summary>
-        ///// The update customer if the customer is correct then returns no data.
-        ///// </summary>
-        //[Test]
-        //public void UpdateCustomer_CustomerIsCorrect_ReturnsNoData()
-        //{
-        //    // Arrange
-        //    var customerToModify = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customerToModify.Name = "Modified Customer";
+            this.uri = UsersController.UriBase + userToModify.UserId;
 
-        //    this.uri = CustomersController.UriBase + customerToModify.idCustomer;
+            // Action
+            using (var response = this.PutAsync(userToModify).Result)
+            {
+                // Assert Response
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
-        //    // Action
-        //    using (var response = this.PutAsync(customerToModify).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+                // Assert DB
+                var customer = this.GetUser(BaseServerTest.TestsDb.UserDefaultTest.UserId);
+                customer.Name.Should().Be(userToModify.Name);
+            }
+        }
 
-        //        // Assert DB
-        //        var customer = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //        customer.Name.Should().Be(customerToModify.Name);
-        //    }
-        //}
+        /// <summary>
+        /// If one user update a customer and another user try to update with older data the second update returns error
+        /// </summary>
+        [Test]
+        public void UpdateCustomer_CustomerIsAlreadyUpdated_ReturnsConcurrencyError()
+        {
+            // Arrange
+            var customerToModify = this.GetUser(TestsDb.UserDefaultTest.UserId);
+            customerToModify.Name = "Modified Customer";
 
-        ///// <summary>
-        ///// The update customer if the customer and the user culture is english is correct then returns error in english.
-        ///// </summary>
-        ///// <param name="language">
-        ///// The language.
-        ///// </param>
-        ///// <param name="test">
-        ///// The test.
-        ///// </param>
-        //[TestCase(Language.English, "field")]
-        //[TestCase(Language.Spanish, "campo")]
-        //public void UpdateCustomer_CustomerIsIncorrect_ReturnsErrorTextInUserLanguage(string language, string test)
-        //{
-        //    // Arrange
-        //    var customerToModify = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customerToModify.Name = string.Empty;
-        //    customerToModify.surname1 = string.Empty;
+            this.uri = UsersController.UriBase + customerToModify.UserId;
 
-        //    this.uri = CustomersController.UriBase + customerToModify.idCustomer;
+            // Action
+            using (var response = this.PutAsync(customerToModify).Result)
+            {
+                // Assert Response
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.NoContent);
+            }
 
-        //    // Action
-        //    using (var response = this.PutAsync(customerToModify, language).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            var olderCustomer = new UserResource().MapFrom(TestsDb.UserDefaultTest);
+            olderCustomer.Name = "Concurrent error";
 
-        //        var errors = ErrorsTestExtension.GetErrors(response);
-        //        errors.Count(c => c.Contains(test)).Should().BeGreaterOrEqualTo(2);
-        //    }
-        //}
+            this.uri = UsersController.UriBase + olderCustomer.UserId;
 
-        ///// <summary>
-        ///// If one user update a customer and another user try to update with older data the second update returns error
-        ///// </summary>
-        //[Test]
-        //public void UpdateCustomer_CustomerIsAlreadyUpdated_ReturnsConcurrencyError()
-        //{
-        //    // Arrange
-        //    var customerToModify = this.GetCustomer(TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customerToModify.Name = "Modified Customer";
+            // Action Try to Update client to older values
+            using (var response = this.PutAsync(olderCustomer).Result)
+            {
+                // Assert Response
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            }
+        }
 
-        //    this.uri = CustomersController.UriBase + customerToModify.idCustomer;
 
-        //    // Action
-        //    using (var response = this.PutAsync(customerToModify).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        //    }
 
-        //    var olderCustomer = new CustomerResource().MapFrom(TestsDb.DefaultCustomerTest);
-        //    olderCustomer.Name = "Concurrent error";
+        /// <summary>
+        /// The addNew customer if the customer is correct then returns created.
+        /// </summary>
+        [Test]
+        public void InsertCustomer_CustomerIsCorrect_ReturnsCreated()
+        {
+            // Arrange
+            var userToAdd = UserTestExtension.GetDefault();
 
-        //    this.uri = CustomersController.UriBase + olderCustomer.idCustomer;
+            this.uri = UsersController.UriBase;
 
-        //    // Action Try to Update client to older values
-        //    using (var response = this.PutAsync(olderCustomer).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-        //    }
-        //}
+            // Action
+            using (var response = this.PostAsync(userToAdd).Result)
+            {
+                // Assert Response
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer with mail {0} has to be created but fails for {1}", userToAdd.Mail, response.Content.ReadAsStringAsync().Result);
+                response.ShouldBeEquivalentTo(userToAdd);
 
-        ///// <summary>
-        ///// Check that the fields update user and date updated has been updated
-        ///// </summary>
-        //[Test]
-        //public void UpdateCustomer_CustomerIsCorrect_UpdatedUserAndUpdatedDataHasBeenUpdated()
-        //{
-        //    // Arrange
-        //    var customerToModify = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customerToModify.Name = "Modified Customer";
-        //    var updatedDate = DateTime.Now;
 
-        //    this.uri = CustomersController.UriBase + customerToModify.idCustomer;
+                // Assert DB
+                var customerSaved = this.GetUser(response.GetUserResource().UserId);
+                response.ShouldBeEquivalentTo(customerSaved);
+            }
+        }
 
-        //    // Action
-        //    using (var response = this.PutAsync(customerToModify).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
-        //    }
-
-        //    // Assert DB
-        //    var customer = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customer.Name.Should().Be(customerToModify.Name);
-        //    customer.updatedDate.Should().BeOnOrAfter(updatedDate);
-        //    customer.updatedUser.Should().NotBeNullOrWhiteSpace();
-        //}
-
-        ///// <summary>
-        ///// The addNew customer if the customer is incorrect then returns error in user language.
-        ///// </summary>
-        ///// <param name="language">
-        ///// The language.
-        ///// </param>
-        ///// <param name="text">
-        ///// The text.
-        ///// </param>
-        //[TestCase(Language.English, "field")]
-        //[TestCase(Language.Spanish, "campo")]
-        //public void InsertCustomer_CustomerIsIncorrect_ReturnsErrorInUserLanguage(string language, string text)
-        //{
-        //    // Arrange
-        //    var customerToAdd = new CustomerResource
-        //    {
-        //        Name = "Customer Added",
-        //        surname1 = "surname",
-        //    };
-
-        //    this.uri = CustomersController.UriBase;
-
-        //    // Action
-        //    using (var response = this.PostAsync(customerToAdd, language).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
-        //        var errors = ErrorsTestExtension.GetErrors(response);
-
-        //        errors.Count(c => c.Contains(text)).Should().BeGreaterOrEqualTo(1);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// The addNew customer if the customer is correct then returns created.
-        ///// </summary>
-        //[Test]
-        //public void InsertCustomer_CustomerIsCorrect_ReturnsCreated()
-        //{
-        //    // Arrange
-        //    var customerToAdd = CustomerResourceTestExtension.GetDefault();
-
-        //    this.uri = CustomersController.UriBase;
-
-        //    // Action
-        //    using (var response = this.PostAsync(customerToAdd).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer with mail {0} has to be created but fails for {1}", customerToAdd.eMail, response.Content.ReadAsStringAsync().Result);
-        //        var customerRedirect = CustomerResourceTestExtension.GetCustomerResource(response);
-        //        customerRedirect.eMail.Should().Be(customerToAdd.eMail);
-
-        //        // Assert DB
-        //        var customerSaved = this.GetCustomer(customerRedirect.idCustomer);
-        //        customerRedirect.ShouldBeEquivalentToCustomer(customerSaved);
-        //    }
-        //}
-
-        ///// <summary>
-        ///// The addNew customer if the customer is correct then returns created.
-        ///// </summary>
+        /// <summary>
+        /// The addNew customer if the customer is correct then returns created.
+        /// </summary>
         //[Test]
         //public void InsertCustomer_CustomerIsCorrect_AuthorizationDataIsCreated()
         //{
         //    // Arrange
-        //    var customerToAdd = CustomerResourceTestExtension.GetDefault();
+        //    var customerToAdd = UserTestExtension.GetDefault();
 
-        //    this.uri = CustomersController.UriBase;
+        //    this.uri = UsersController.UriBase;
 
         //    // Action
         //    using (var response = this.PostAsync(customerToAdd).Result)
@@ -331,88 +218,89 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         //        response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer fails for {0}", response.Content.ReadAsStringAsync().Result);
 
         //        // Assert DB
-        //        var customerRedirect = JsonConvert.DeserializeObject<CustomerResource>(response.Content.ReadAsStringAsync().Result);
+        //        var customerRedirect = JsonConvert.DeserializeObject<User>(response.Content.ReadAsStringAsync().Result);
         //        var authUser = this.authRepository.FindAsync(customerRedirect.MapTo()).Result;
         //        authUser.UserName.ShouldBeEquivalentTo(customerRedirect.Name);
         //    }
         //}
 
-        ///// <summary>
-        ///// The addNew customer if the customer is exists then returns error.
-        ///// </summary>
-        //[Test]
-        //public void InsertCustomer_CustomerAlreadyExists_ReturnsError()
-        //{
-        //    // Arrange
-        //    var customerToAdd = this.GetCustomer(BaseServerTest.TestsDb.DefaultCustomerTest.IdCustomer);
-        //    customerToAdd.Name = "CustomerAdded";
-        //    customerToAdd.eMail = "mail@mail.com";
+        /// <summary>
+        /// The addNew customer if the customer is exists then returns error.
+        /// </summary>
 
-        //    this.uri = CustomersController.UriBase;
+        [Test]
+        public void InsertCustomer_CustomerAlreadyExists_ReturnsError()
+        {
+            // Arrange
+            var customerToAdd = this.GetUser(TestsDb.UserDefaultTest.UserId);
+            customerToAdd.Name = "CustomerAdded";
+            customerToAdd.Mail = "mail@mail.com";
 
-        //    // Action
-        //    using (var response = this.PostAsync(customerToAdd).Result)
-        //    {
-        //        // Assert Response
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-        //    }
-        //}
+            this.uri = UsersController.UriBase;
 
-        ///// <summary>
-        ///// The delete customer if the customer is correct then returns delete.
-        ///// </summary>
-        //[Test]
-        //public void DeleteCustomer_CustomerIsCorrect_ReturnsDeleted()
-        //{
-        //    // Arrange
-        //    var customerToAdd = CustomerResourceTestExtension.GetDefault();
+            // Action
+            using (var response = this.PostAsync(customerToAdd).Result)
+            {
+                // Assert Response
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            }
+        }
 
-        //    this.uri = CustomersController.UriBase;
-        //    CustomerResource customerRedirect;
+        /// <summary>
+        /// The delete customer if the customer is correct then returns delete.
+        /// </summary>
+        [Test]
+        public void DeleteCustomer_CustomerIsCorrect_ReturnsDeleted()
+        {
+            // Arrange
+            var customerToAdd = UserTestExtension.GetDefault();
 
-        //    using (var response = this.PostAsync(customerToAdd).Result)
-        //    {
-        //        response.Should().NotBeNull();
-        //        customerRedirect = CustomerResourceTestExtension.GetCustomerResource(response);
-        //    }
+            this.uri = UsersController.UriBase;
+            UserResource customerRedirect;
 
-        //    this.uri = CustomersController.UriBase + customerRedirect.idCustomer;
+            using (var response = this.PostAsync(customerToAdd).Result)
+            {
+                response.Should().NotBeNull();
+                customerRedirect = response.GetUserResource();
+            }
 
-        //    // Action
-        //    using (var response = this.DeleteAsync(customerRedirect).Result)
-        //    {
-        //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        //        var customer = CustomerResourceTestExtension.GetCustomerResource(response);
-        //        customer.idCustomer.Should().Be(customerRedirect.idCustomer);
+            this.uri = UsersController.UriBase + customerRedirect.UserId;
 
-        //        // AssertBD
-        //        var customerDeleted = this.GetCustomer(customer.idCustomer);
-        //        customerDeleted.Should().BeNull();
-        //    }
-        //}
+            // Action
+            using (var response = this.DeleteAsync(customerRedirect).Result)
+            {
+                response.Should().NotBeNull();
+                response.StatusCode.Should().Be(HttpStatusCode.OK);
+                var customer = response.GetUserResource();
+                customer.UserId.Should().Be(customerRedirect.UserId);
 
-        ///// <summary>
-        ///// The get customer.
-        ///// </summary>
-        ///// <param name="customerId">
-        ///// The customer id.
-        ///// </param>
-        ///// <returns>
-        ///// The <see cref="CustomerResource"/>.
-        ///// </returns>
-        //private CustomerResource GetCustomer(Guid customerId)
-        //{
-        //    this.uri = CustomersController.UriBase + customerId;
-        //    using (var response = this.GetAsync().Result)
-        //    {
-        //        response.Should().NotBeNull();
-        //        return response.StatusCode == HttpStatusCode.OK
-        //            ? JsonConvert.DeserializeObject<CustomerResource>(response.Content.ReadAsStringAsync().Result)
-        //            : null;
-        //    }
-        //}
+                // AssertBD
+                var customerDeleted = this.GetUser(customer.UserId);
+                customerDeleted.Should().BeNull();
+            }
+        }
+
+        /// <summary>
+        /// The get customer.
+        /// </summary>
+        /// <param name="userId">
+        /// The customer id.
+        /// </param>
+        /// <returns>
+        /// The <see cref="CustomerResource"/>.
+        /// </returns>
+        private UserResource GetUser(Guid userId)
+        {
+            this.uri = UsersController.UriBase + userId;
+            using (var response = this.GetAsync().Result)
+            {
+                response.Should().NotBeNull();
+                return response.StatusCode == HttpStatusCode.OK
+                    ? JsonConvert.DeserializeObject<UserResource>(response.Content.ReadAsStringAsync().Result)
+                    : null;
+            }
+        }
 
         // TODO Al crear un cliente si el usuario esta autentificado se graba como usuario de creacion el usuario de la sesion
     }

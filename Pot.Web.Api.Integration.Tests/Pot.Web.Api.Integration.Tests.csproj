@@ -126,6 +126,14 @@
       <Project>{96dc9f6d-c064-41ac-803a-4e96114422d2}</Project>
       <Name>Pot.Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Pot.Web.Api.Tests.Utils\Pot.Web.Api.Tests.Utils.csproj">
+      <Project>{19502259-6F7F-45E9-9B5C-93A194F9E4C5}</Project>
+      <Name>Pot.Web.Api.Tests.Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Pot.Web.Api.UnitTests\Pot.Web.Api.Unit.Tests.csproj">
+      <Project>{03f19de5-1de1-43e8-9383-177f80b97ba3}</Project>
+      <Name>Pot.Web.Api.Unit.Tests</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Pot.Web.Api\Pot.Web.Api.csproj">
       <Project>{2BA20D78-9EDA-4B5E-A4A8-07A6631EF549}</Project>
       <Name>Pot.Web.Api</Name>
