@@ -12,6 +12,8 @@ namespace Pot.Web.Api.Unit.Tests
     using System.Data.Entity;
 
     using Pot.Data;
+    using Pot.Data.Infraestructure;
+    using Pot.Data.Model;
     using Pot.Data.SQLServer;
 
     /// <summary>
@@ -19,6 +21,8 @@ namespace Pot.Web.Api.Unit.Tests
     /// </summary>
     internal class UserFactoryFake : UserFactory, IUserFactory
     {
+        private readonly IRepositoryAsync<User> userRepository;
+
         ///// <summary>
         ///// The customer repository mock.
         ///// </summary>
@@ -55,45 +59,18 @@ namespace Pot.Web.Api.Unit.Tests
         //    this.translatorMotherTongueRepository = translatorMotherTongueRepository;
         //}
 
-        ///// <summary>
-        ///// Gets the get base repository.
-        ///// </summary>
-        //public override IRepositoryAsync<Translator> GetBaseRepository
-        //{
-        //    get
-        //    {
-        //        return new TranslatorRepositoryFake(this.TranslatorContext, new Mock<IAuthRepository>().Object, this.translatorRepositoryMock);
-        //    }
-        //}
+        public override IRepositoryAsync<User> UsersRepository
+        {
+            get
+            {
+                return this.userRepository;
+            }
+        }
 
-        ///// <summary>
-        ///// The get repository async.
-        ///// </summary>
-        ///// <typeparam name="T">
-        ///// The entity
-        ///// </typeparam>
-        ///// <returns>
-        ///// The <see cref="IRepositoryAsync"/>.
-        ///// </returns>
-        //public override IRepositoryAsync<T> GetRepositoryAsync<T>()
-        //{
-        //    if (typeof(T) == typeof(TranslatorMotherTongue))
-        //    {
-        //        if (this.translatorMotherTongueRepository != null)
-        //        {
-        //            return (IRepositoryAsync<T>)this.translatorMotherTongueRepository;
-        //        }
-        //    }
-
-        //    return base.GetRepositoryAsync<T>();
-        //}
-
-
-
-        //GetRepositoryAsync<TranslatorMotherTongue>(),
-        public UserFactoryFake(PotDbContext dbContext)
+        public UserFactoryFake(PotDbContext dbContext, IRepositoryAsync<User> userRepository)
             : base(dbContext)
         {
+            this.userRepository = userRepository;
         }
     }
 }

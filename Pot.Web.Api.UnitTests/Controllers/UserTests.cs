@@ -39,132 +39,132 @@
             result.Count().Should().Be(users.Count());
         }
 
-//        /// <summary>
-//        /// The get user when there are no users then returns not found.
-//        /// </summary>
-//        [Test]
-//        public void GetUser_ThereAreNoUsers_ReturnsNotFound()
-//        {
-//            // Arrange
-//            var users = new List<User>().AsQueryable();
-//            var userController = UserControllerMockFactory(users);
+        /// <summary>
+        /// The get user when there are no users then returns not found.
+        /// </summary>
+        [Test]
+        public void GetUser_ThereAreNoUsers_ReturnsNotFound()
+        {
+            // Arrange
+            var users = new List<User>().AsQueryable();
+            var userController = UserControllerMockFactory(users);
 
-//            // Action
-//            var result = userController.Get(Guid.NewGuid()).Result;
+            // Action
+            var result = userController.GetUser(Guid.NewGuid()).Result;
 
-//            // Assert
-//            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
-//        }
+            // Assert
+            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
+        }
 
-//        /// <summary>
-//        /// The get user when there are a user then returns user.
-//        /// </summary>
-//        [Test]
-//        public void GetUser_ThereAreUser_ReturnUser()
-//        {
-//            var savedList = new DefaultSavedUsers();
-//            var users = savedList.GetUsers();
-//            var userController = UserControllerMockFactory(users);
+        /// <summary>
+        /// The get user when there are a user then returns user.
+        /// </summary>
+        [Test]
+        public void GetUser_ThereAreUser_ReturnUser()
+        {
+            var savedList = new DefaultSavedUsers();
+            var users = savedList.GetUsers();
+            var userController = UserControllerMockFactory(users);
 
-//            // Action
-//            var result = userController.Get(savedList.User1.IdUser).Result;
+            // Action
+            var result = userController.GetUser(savedList.User1.UserId).Result;
 
-//            // Assert
-//            result.ShouldBeEquivalent(savedList.User1);
-//        }
+            // Assert
+            result.ShouldBeEquivalent(savedList.User1);
+        }
 
-//        /// <summary>
-//        /// The update user if the userId and the userId are different returns bad request.
-//        /// </summary>
-//        [Test]
-//        public void UpdateUser_ParametersWrong_ReturnsBadRequest()
-//        {
-//            // Arrange
-//            var savedList = new DefaultSavedUsers();
-//            var users = savedList.GetUsers();
-//            var userController = UserControllerMockFactory(users);
+        /// <summary>
+        /// The update user if the userId and the userId are different returns bad request.
+        /// </summary>
+        [Test]
+        public void UpdateUser_ParametersWrong_ReturnsBadRequest()
+        {
+            // Arrange
+            var savedList = new DefaultSavedUsers();
+            var users = savedList.GetUsers();
+            var userController = UserControllerMockFactory(users);
 
-//            // Action
-//            var result = userController.Put(Guid.NewGuid(), new UserResource().MapFrom(savedList.User1)).Result;
+            // Action
+            var result = userController.PutUser(Guid.NewGuid(), new UserResource().MapFrom(savedList.User1)).Result;
 
-//            // Assert
-//            result.Should().BeOfType(typeof(System.Web.Http.Results.BadRequestResult));
-//        }
+            // Assert
+            result.Should().BeOfType(typeof(System.Web.Http.Results.BadRequestResult));
+        }
 
-//        /// <summary>
-//        /// The update user if the user not exists then returns not found.
-//        /// </summary>
-//        [Test]
-//        public void UpdateUser_UserNotExists_ReturnsNotFound()
-//        {
-//            // Arrange
-//            var savedList = new DefaultSavedUsers();
-//            var users = savedList.GetUsers();
-//            var userController = UserControllerMockFactory(users);
-//            var missingUser = new User { IdUser = Guid.NewGuid(), Name = "Missing user" };
+        /// <summary>
+        /// The update user if the user not exists then returns not found.
+        /// </summary>
+        [Test]
+        public void UpdateUser_UserNotExists_ReturnsNotFound()
+        {
+            // Arrange
+            var savedList = new DefaultSavedUsers();
+            var users = savedList.GetUsers();
+            var userController = UserControllerMockFactory(users);
+            var missingUser = new User { UserId = Guid.NewGuid(), Name = "Missing user" };
 
-//            // Action
-//            var result = userController.Put(missingUser.IdUser, new UserResource().MapFrom(missingUser)).Result;
+            // Action
+            var result = userController.PutUser(missingUser.UserId, new UserResource().MapFrom(missingUser)).Result;
 
-//            // Assert
-//            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
-//        }
+            // Assert
+            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
+        }
 
-//        /// <summary>
-//        /// The update user if the user not exists then returns not found.
-//        /// </summary>
-//        [Test]
-//        public void UpdateUser_UserExists_ReturnsOk()
-//        {
-//            // Arrange
-//            var savedList = new DefaultSavedUsers();
-//            var users = savedList.GetUsers();
-//            var userController = UserControllerMockFactory(users, savedList.User2);
+        /// <summary>
+        /// The update user if the user not exists then returns not found.
+        /// </summary>
+        [Test]
+        public void UpdateUser_UserExists_ReturnsOk()
+        {
+            // Arrange
+            var savedList = new DefaultSavedUsers();
+            var users = savedList.GetUsers();
+            var userController = UserControllerMockFactory(users, savedList.User2);
 
-//            var modifiedUser = new UserResource().MapFrom(savedList.User2);
-//            modifiedUser.name = "modified name";
+            var modifiedUser = new UserResource().MapFrom(savedList.User2);
+            modifiedUser.Name = "modified name";
 
-//            // Action
-//            var result = userController.Put(modifiedUser.idUser, modifiedUser).Result;
+            // Action
+            var result = userController.PutUser(modifiedUser.UserId, modifiedUser).Result;
 
-//            // Assert
-//            result.Should().BeOfType(typeof(System.Web.Http.Results.StatusCodeResult));
-//        }
+            // Assert
+            result.Should().BeOfType(typeof(System.Web.Http.Results.StatusCodeResult));
+        }
 
-//        /// <summary>
-//        /// The delete user if the user exists then returns ok.
-//        /// </summary>
-//        [Test]
-//        public void DeleteUser_UserExists_ReturnsOk()
-//        {
-//            // Arrange
-//            var savedList = new DefaultSavedUsers();
-//            var users = savedList.GetUsers();
-//            var userController = UserControllerMockFactory(users, savedList.User1);
+        /// <summary>
+        /// The delete user if the user exists then returns ok.
+        /// </summary>
+        [Test]
+        public void DeleteUser_UserExists_ReturnsOk()
+        {
+            // Arrange
+            var savedList = new DefaultSavedUsers();
+            var users = savedList.GetUsers();
+            var userController = UserControllerMockFactory(users, savedList.User1);
 
-//            // Action
-//            var result = userController.Delete(savedList.User1.IdUser).Result;
+            // Action
+            var result = userController.DeleteUser(savedList.User1.UserId).Result;
 
-//            // Assert
-//            result.ShouldBeEquivalent(savedList.User1);
-//        }
+            // Assert
+            result.ShouldBeEquivalent(savedList.User1);
+        }
 
-//        /// <summary>
-//        /// The delete user if the user not exists then returns error.
-//        /// </summary>
-//        [Test]
-//        public void DeleteUser_UserDoNotExists_ReturnsError()
-//        {
-//            // Arrange
-//            var users = new List<User>().AsQueryable();
-//            var userController = UserControllerMockFactory(users);
+        /// <summary>
+        /// The delete user if the user not exists then returns error.
+        /// </summary>
+        [Test]
+        public void DeleteUser_UserDoNotExists_ReturnsError()
+        {
+            // Arrange
+            var users = new List<User>().AsQueryable();
+            var userController = UserControllerMockFactory(users);
 
-//            // Action
-//            var result = userController.Delete(Guid.NewGuid()).Result;
+            // Action
+            var result = userController.DeleteUser(Guid.NewGuid()).Result;
 
-//            // Assert
-//            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
-//        }
+            // Assert
+            result.Should().BeOfType(typeof(System.Web.Http.Results.NotFoundResult));
+        }
 
         /// <summary>
         /// The user controller mock factory.
@@ -186,7 +186,7 @@
             var userRepositoryMock = new Mock<IUserRepository>();
             userRepositoryMock.Setup(cr => cr.FindAsync(It.IsAny<object>())).Returns(Task.FromResult(userFound));
 
-            return new UsersController(new UserFactoryFake(userContextMock.Object));
+            return new UsersController(new UserFactoryFake(userContextMock.Object, userRepositoryMock.Object));
         }
 
         /// <summary>

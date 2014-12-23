@@ -15,12 +15,13 @@
         {
         }
 
-      public IRepositoryAsync<User> UsersRepository
+      public virtual IRepositoryAsync<User> UsersRepository
         {
             get
             {
                 return new Repository<User>(DbContext);
             }
+
         }
     }
 }
