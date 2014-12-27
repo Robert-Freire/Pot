@@ -15,8 +15,11 @@ using Pot.Web.Api;
 
 namespace Pot.Web.Api
 {
+    using System;
     using System.Diagnostics.CodeAnalysis;
     using System.Web.Http;
+
+    using Microsoft.Owin.Security.OAuth;
 
     using Owin;
 
@@ -41,7 +44,7 @@ namespace Pot.Web.Api
             config.RegisterWebApi();
             config.RegisterUnityComponents();
 
-            //app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
         }
 
@@ -57,18 +60,17 @@ namespace Pot.Web.Api
         public void ConfigureOAuth(IAppBuilder app)
         {
             //// TODO  Add the providers in Unity
-            //var authServerOptions = new OAuthAuthorizationServerOptions
-            //{
-            //    AllowInsecureHttp = true,
-            //    TokenEndpointPath = new PathString("/token"),
-            //    AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(10),
-            //    Provider = new SimpleAuthorizationServerProvider(),
-            //    RefreshTokenProvider = new SimpleRefreshTokenProvider()
-            //};
+            var authServerOptions = new OAuthAuthorizationServerOptions
+            {
+                AllowInsecureHttp = true,
+                TokenEndpointPath = new PathString("/token"),
+                AccessTokenExpireTimeSpan = TimeSpan.FromMinutes(10),
+                Provider = new SimpleAuthorizationServerProvider(),
+            };
 
             //// Token Generation
-            //app.UseOAuthAuthorizationServer(authServerOptions);
-            //app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+            app.UseOAuthAuthorizationServer(authServerOptions);
+            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
     }
 }
