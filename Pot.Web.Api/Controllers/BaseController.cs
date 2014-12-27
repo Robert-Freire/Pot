@@ -82,8 +82,16 @@
         /// </returns>
         protected async Task<IQueryable<TResource>> GetAll()
         {
-            var entities = await this.baseRepository.Queryable().ToListAsync();
-            return entities.AsQueryable().Select(entity => this.mapResource.MapFrom(entity));
+            try
+            {
+                var entities = await this.baseRepository.Queryable().ToListAsync();
+                return entities.AsQueryable().Select(entity => this.mapResource.MapFrom(entity));
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+
 
             // TODO revisar el posible cambio a proyecciones
             // return entities.AsQueryable().Project().To<TResource>();
@@ -117,11 +125,75 @@
             return this.Ok(this.mapResource.MapFrom(entity));
         }
 
+        ///// <summary>
+        ///// The put.
+        ///// </summary>
+        ///// <param name="id">
+        ///// The id.
+        ///// </param>
+        ///// <param name="resourceToUpdate">
+        ///// The resource To Update.
+        ///// </param>
+        ///// <returns>
+        ///// The <see cref="Task"/>.
+        ///// </returns>
+        ///// <remarks>
+        ///// Returns code:
+        /////     if data is incorrect:                                   Bad Request Response    (400)  
+        /////     if data fails validations:                              Bad Request Response    (400)  
+        /////     If data not exists:                                     Not Found Response      (404)       
+        /////     If data has already been updated for other process:     Conflict Response       (409)       
+        /////     If all is ok:                                           No Content Response     (204)                
+        ///// </remarks>
+        //protected async Task<IHttpActionResult> Put(Guid id, TResource resourceToUpdate)
+        //{
+        //    if (!this.ModelState.IsValid)
+        //    {
+        //        return this.BadRequest(this.ModelState);
+        //    }
+
+        //    var entityToUpdate = await this.baseRepository.FindAsync(id).WithCurrentCulture();
+
+        //    if (entityToUpdate == null)
+        //    {
+        //        return this.NotFound();
+        //    }
+
+        //    entityToUpdate = resourceToUpdate.MapTo(entityToUpdate);
+        //    this.baseRepository.Update(entityToUpdate);
+        //    try
+        //    {
+        //        var result = await this.unitOfWorkAsync.SaveChangesAsync().WithCurrentCulture();
+        //        if (!result.IsValid)
+        //        {
+        //            var err = new ValidationException(result.Errors.ToString());
+        //            ErrorLog.LogError(err, result.Errors.ToString());
+
+        //            return ApiControllerExtension.ValidationsErrorResult(this, result.Errors.ToList());
+        //        }
+        //    }
+        //    catch (DbUpdateConcurrencyException ex)
+        //    {
+        //        ErrorLog.LogError(ex);
+
+        //        return this.StatusCode(HttpStatusCode.Conflict);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        ErrorLog.LogError(ex);
+        //    }
+
+        //    return this.StatusCode(HttpStatusCode.NoContent);
+        //}
+
         /// <summary>
         /// The put.
         /// </summary>
         /// <param name="id">
         /// The id.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate
         /// </param>
         /// <param name="resourceToUpdate">
         /// The resource To Update.
@@ -137,14 +209,14 @@
         ///     If data has already been updated for other process:     Conflict Response       (409)       
         ///     If all is ok:                                           No Content Response     (204)                
         /// </remarks>
-        protected async Task<IHttpActionResult> Put(Guid id, TResource resourceToUpdate)
+        protected async Task<IHttpActionResult> Put(Expression<Func<T, bool>> predicate, TResource resourceToUpdate)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
             }
 
-            var entityToUpdate = await this.baseRepository.FindAsync(id).WithCurrentCulture();
+            var entityToUpdate = await this.baseRepository.Queryable().SingleOrDefaultAsync(predicate).WithCurrentCulture();
 
             if (entityToUpdate == null)
             {
@@ -177,7 +249,6 @@
 
             return this.StatusCode(HttpStatusCode.NoContent);
         }
-
         /// <summary>
         /// The post.
         /// </summary>
@@ -244,11 +315,51 @@
             return this.Ok(customerToInsert);
         }
 
+        ///// <summary>
+        ///// The delete.
+        ///// </summary>
+        ///// <param name="id">
+        ///// The id.
+        ///// </param>
+        ///// <returns>
+        ///// The <see cref="Task"/>.
+        ///// </returns>
+        ///// <remarks>
+        ///// Returns code:
+        /////     If data not exists:                                     Not Found Response      (404)       
+        /////     if data fails validations:                              Bad Request Response    (400)  
+        /////     If all is ok:                                           Ok Response             (200)                
+        ///// </remarks>
+        //protected async Task<IHttpActionResult> Delete(Guid id)
+        //{
+        //    var entity = await this.baseRepository.FindAsync(id).WithCurrentCulture();
+        //    if (entity == null)
+        //    {
+        //        return this.NotFound();
+        //    }
+
+        //    this.baseRepository.Delete(entity);
+
+        //    var result = await this.unitOfWorkAsync.SaveChangesAsync().WithCurrentCulture();
+        //    if (!result.IsValid)
+        //    {
+        //        var err = new ValidationException(result.Errors.ToString());
+        //        ErrorLog.LogError(err, result.Errors.ToString());
+
+        //        return ApiControllerExtension.ValidationsErrorResult(this, result.Errors.ToList());
+        //    }
+
+        //    return this.Ok(this.mapResource.MapFrom(entity));
+        //}
+
         /// <summary>
         /// The delete.
         /// </summary>
         /// <param name="id">
         /// The id.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate 
         /// </param>
         /// <returns>
         /// The <see cref="Task"/>.
@@ -259,9 +370,9 @@
         ///     if data fails validations:                              Bad Request Response    (400)  
         ///     If all is ok:                                           Ok Response             (200)                
         /// </remarks>
-        protected async Task<IHttpActionResult> Delete(Guid id)
+        protected async Task<IHttpActionResult> Delete(Expression<Func<T, bool>> predicate)
         {
-            var entity = await this.baseRepository.FindAsync(id).WithCurrentCulture();
+            var entity = await this.baseRepository.Queryable().FirstOrDefaultAsync(predicate).WithCurrentCulture();
             if (entity == null)
             {
                 return this.NotFound();
@@ -280,6 +391,7 @@
 
             return this.Ok(this.mapResource.MapFrom(entity));
         }
+
 
         /// <summary>
         /// The dispose.

@@ -86,7 +86,7 @@
                 return this.BadRequest();
             }
 
-            return await this.Put(id, usersResource);
+            return await this.Put(p => p.UserId == id, usersResource);
         }
 
         /// POST: api/Users
@@ -112,7 +112,7 @@
         {
             var createdUser = (this.User == null) || (this.User.Identity == null)
                               || string.IsNullOrWhiteSpace(this.User.Identity.Name)
-                ? users.Name
+                ? users.UserName
                 : this.User.Identity.Name;
 
             var result = await this.Post(users.UserId, users, createdUser);
@@ -140,7 +140,7 @@
         [ResponseType(typeof(UserResource))]
         public async Task<IHttpActionResult> DeleteUser(Guid id)
         {
-            return await this.Delete(id);
+            return await this.Delete(p => p.UserId == id);
         }
     }
 }

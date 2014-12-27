@@ -14,14 +14,15 @@
 
     internal static class UserTestExtension
     {
+        static int cont = 0;
         internal static UserResource GetDefault()
         {
-
+            cont++;
             return new UserResource
             {
-                Name = "Customer",
+                UserName = "Customer" + cont,
                 UserId = Guid.NewGuid(),
-                Mail = "newMail@mail.com"
+                Email = "newMail@mail.com"
             };
         }
 
@@ -32,14 +33,19 @@
 
         internal static void ShouldBeEquivalentToUser(this User user, UserResource userResource)
         {
-            user.ShouldBeEquivalentTo(userResource, opt => opt.Excluding(e => e.Version).ExcludingMissingProperties());
-        }
+           // user.ShouldBeEquivalentTo(userResource, opt => opt.Excluding(e => e.Version).ExcludingMissingProperties());
+            user.ShouldBeEquivalentTo(userResource, opt => opt.ExcludingMissingProperties());
 
+        }
         internal static void ShouldBeEquivalentToUser(this UserResource userResource, User user)
         {
+            //userResource.ShouldBeEquivalentTo(
+            //    user,
+            //    opt => opt.ExcludingMissingProperties().ExcludingNestedObjects().Excluding(e => e.Email).Excluding(e => e.Version));
             userResource.ShouldBeEquivalentTo(
-                user,
-                opt => opt.ExcludingMissingProperties().ExcludingNestedObjects().Excluding(e => e.Mail).Excluding(e => e.Version));
+                          user,
+                          opt => opt.ExcludingMissingProperties().ExcludingNestedObjects());
+
         }
 
         internal static void ShouldBeEquivalent(this IHttpActionResult result, User user)
@@ -58,7 +64,8 @@
         internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, UserResource user)
         {
             var userResource = GetUserResource(response);
-            userResource.ShouldBeEquivalentTo(user, opt=> opt.Excluding(f => f.Version));
+            userResource.ShouldBeEquivalentTo(user);
+//            userResource.ShouldBeEquivalentTo(user, opt=> opt.Excluding(f => f.Version));
         }
     }
 }

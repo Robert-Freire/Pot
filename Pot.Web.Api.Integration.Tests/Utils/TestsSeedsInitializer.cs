@@ -42,7 +42,7 @@ namespace Pot.Web.Api.Integration.Tests.Utils
             get
             {
                 return this.userOriginal
-                       ?? (this.userOriginal = new User { Mail = "original@test.com", Name = "original", UserId = Guid.NewGuid() });
+                       ?? (this.userOriginal = new User { Email = "original@test.com", UserName = "original", UserId = Guid.NewGuid() });
             }
         }
 
@@ -52,7 +52,7 @@ namespace Pot.Web.Api.Integration.Tests.Utils
             get
             {
                 return this.userDefaultTest
-                       ?? (this.userDefaultTest = new User { Mail = "test1@test.com", Name = "tes1", UserId = Guid.NewGuid() });
+                       ?? (this.userDefaultTest = new User { Email = "test1@test.com", UserName  = "tes1", UserId = Guid.NewGuid() });
             }
         }
         /// <summary>
@@ -63,11 +63,11 @@ namespace Pot.Web.Api.Integration.Tests.Utils
         /// </param>
         private void AddTestsUsers(PotDbContext context)
         {
-           var user2 = new User { Mail = "test2@test.com", Name = "tes2", UserId = Guid.NewGuid() };
+           var user2 = new User { Email = "test2@test.com", UserName = "tes2", UserId = Guid.NewGuid() };
 
-            context.Users.Add(this.UserDefaultTest);
-            context.Users.Add(user2);
-            context.Users.Add(this.UserOriginal);
+            context.AppUsers.Add(this.UserDefaultTest);
+            context.AppUsers.Add(user2);
+            context.AppUsers.Add(this.UserOriginal);
         }
     }
 }

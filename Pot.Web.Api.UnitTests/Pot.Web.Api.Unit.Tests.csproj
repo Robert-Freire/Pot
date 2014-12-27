@@ -54,6 +54,12 @@
     <Reference Include="FluentAssertions.Core">
       <HintPath>..\packages\FluentAssertions.3.2.2\lib\net45\FluentAssertions.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
@@ -94,7 +100,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Fakes\Users\TranslatorFactoryFake.cs" />
+    <Compile Include="Fakes\Users\UserRepositoryFake.cs" />
+    <Compile Include="Fakes\Users\UserFactoryFake.cs" />
     <Compile Include="Fakes\Utils\TestDbAsyncQueryProvider.cs" />
     <Compile Include="Fakes\Utils\TestDbAsyncEnumerable.cs" />
     <Compile Include="Fakes\Utils\TestDbAsyncEnumerator.cs" />

@@ -1,0 +1,249 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="5ea83150-e2fc-4f9a-85e9-ff795e6bf938"
+  name="Data"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="8348da31-2067-4b9a-b00b-6922b2e2e134"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DPot.Data"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="70cfce22-481b-41df-bab3-000aa4890c8d"
+        LastKnownName="Infraestructure"
+        LastKnownLocation="Package2_1304.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="e9550165-18da-40bf-bb28-7915df26fc46"
+        name="IUserFactory"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="9e0c57e7-532a-44d4-9890-930075d9ffc6"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPot%2FPot%2FPot.Data%2Fbin%2FDebug%2FPot.Data.dll Namespace%3DPot.Data Type%3DIUserFactory"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="eed011db-9d74-4193-aac5-c99ded5d2daa"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0e22f735-bf47-43d5-9fe1-a249d8796473">
+                <propertyInstance
+                  Id="3965b002-0667-40c2-8c95-1684483e500e"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="947b6ad4-17c6-41ab-84b2-8dbb384d45cd">
+                <propertyInstance
+                  Id="9cbfd981-c8c6-4c6b-9f43-95cfced5fbf0"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="2b1120e6-5e5e-4d9b-858d-ab63e3812b0a">
+                <propertyInstance
+                  Id="2db9ead8-0930-490d-8bbe-6d5c8095bec7"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ecc0b03e-97dc-4e1e-967f-6408638fb901">
+                <propertyInstance
+                  Id="10761eb0-cd68-4517-a674-6b86c53849c1"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="14140c59-471b-45e7-8c4f-0998f9735484"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="7a2e0772-99fd-465a-bfb4-5dc36730510d"
+              LastKnownName="IContextFactoryAsync"
+              LastKnownLocation="Package2_1304.uml" />
+          </generalization>
+        </generalsInternal>
+        <targetEnds>
+          <association
+            Id="1147697f-c660-4ff6-b61d-d00399e8d23a"
+            isDerived="false"
+            sourceEndRoleName="IUserFactory"
+            targetEndRoleName="UsersRepository"
+            isLeaf="false"
+            isAbstract="false">
+            <interfaceMoniker
+              Id="8888c434-0de3-4d8e-b2d8-6cbf5e9d2c92"
+              LastKnownName="IRepositoryAsync&lt;User‎&gt;"
+              LastKnownLocation="Package2_1304.uml" />
+            <description>Property UsersRepository references type IRepositoryAsync&lt;User‎&gt;.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="b90f723f-c3fa-4a4e-9794-fc009cf8a95d"
+                  name="IUserFactory"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="69ccefae-d2d0-4666-9135-999de467ffd9"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="15581537-d5d4-4706-9bbc-2b6ff5b02a0b"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="16f807ae-fc7b-458b-92d3-cb00c8c58f1e"
+                  name="UsersRepository"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="56ae032e-ed21-4a8c-8884-910f8635fc23"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="10f7d628-74a1-41dc-b57e-7a8d3c407d5e"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="da42ec8c-b795-417f-abd9-869cd5ce56fb"
+            name="UsersRepository"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="e2f86aeb-e4ed-4ab8-84f2-7877e40b09e8"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPot%2FPot%2FPot.Data%2Fbin%2FDebug%2FPot.Data.dll Namespace%3DPot.Data Type%3DIUserFactory Member%3DUsersRepository"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="7130fe89-dcae-47c3-8863-64a86718d528"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="81401ac6-12b1-48f9-80a3-0f14cdba7429">
+                    <propertyInstance
+                      Id="0f9a4571-eac0-4797-ac5c-0d1803e4519b"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="98279507-4a5e-4475-80ad-31927c210edd">
+                    <propertyInstance
+                      Id="9635fd24-dd6d-4390-9a79-5f52163e15df"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="af3cef25-5fb5-46eb-bbf9-590f97663ca8">
+                    <propertyInstance
+                      Id="40d7286c-48a3-40e2-b170-7656db70ebb1"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="57861b39-033d-4a40-9932-b8c9edd7b1b8">
+                    <propertyInstance
+                      Id="819b481b-7224-46aa-8fe6-90dd50000a5f"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="97befb39-f07d-4020-82e9-43c08121593e">
+                    <propertyInstance
+                      Id="5fadcd67-b7f7-4515-9c82-f25192ba6f3b"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="77d50d94-57fa-483a-b039-90369d282e20">
+                    <propertyInstance
+                      Id="59945989-3ac1-4ea3-982a-a43113149895"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="316c6888-3300-49c8-a517-2d19a9938065">
+                    <propertyInstance
+                      Id="3f091858-ab51-4260-acb1-01398848be8a"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <interfaceMoniker
+                Id="8888c434-0de3-4d8e-b2d8-6cbf5e9d2c92"
+                LastKnownName="IRepositoryAsync&lt;User‎&gt;"
+                LastKnownLocation="Package2_1304.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="109304b0-c40f-4c36-91ff-e4663aefbf79"
+        LastKnownName="Model"
+        LastKnownLocation="Package_1308.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="e957ea6b-2ba9-4080-bdc0-252928bcba7a"
+        LastKnownName="BoundedContext"
+        LastKnownLocation="Package_1309.uml" />
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <packageMoniker
+        Id="313f38af-4c7c-4fd6-b502-a41a54274732"
+        LastKnownName="SQLServer"
+        LastKnownLocation="Package_1312.uml" />
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

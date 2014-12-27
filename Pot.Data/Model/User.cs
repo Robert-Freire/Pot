@@ -5,10 +5,12 @@ namespace Pot.Data.Model
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
+    using Microsoft.AspNet.Identity.EntityFramework;
+
     /// <summary>
     /// The user.
     /// </summary>
-    public class User
+    public class User: IdentityUser
     {
         public User()
         {
@@ -19,18 +21,29 @@ namespace Pot.Data.Model
         [Key]
         public Guid UserId { get; set; }
 
-        [Required]
-        [StringLength(250)]
-        public string Name { get; set; }
+        //[Required]
+        //[StringLength(250)]
+        //public string Name
+        //{
+        //    get
+        //    {
+        //        return UserName;
+        //    }
 
-        [Required]
-        [StringLength(250)]
-        public string Mail { get; set; }
+        //    set
+        //    {
+        //        UserName = value;
+        //    }
+        //}
 
-        [Column(TypeName = "timestamp")]
-        [MaxLength(8)]
-        [Timestamp]
-        public byte[] Version { get; set; }
+        //[Required]
+        //[StringLength(250)]
+        //public string Mail { get; set; }
+
+        //[Column(TypeName = "timestamp")]
+        //[MaxLength(8)]
+        //[Timestamp]
+        //public byte[] Version { get; set; }
 
         public virtual ICollection<Expense> Expenses { get; set; }
 

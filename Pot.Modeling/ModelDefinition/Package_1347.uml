@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="057a759e-0538-4b1f-b23a-70a21170e5be"
+  name="Transactions"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="aed366ba-532b-439e-9575-9c367421a9d7"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DSystem.Transactions"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <class
+        Id="c02d945c-2c53-491b-a382-63d32a93e635"
+        name="TransactionScope"
+        isAbstract="false"
+        isLeaf="true"
+        isActiveClass="false">
+        <referencesInternal>
+          <reference
+            Id="f7961679-b340-4950-9ad7-49998606138e"
+            handle="viewcode://./CodeSchema_Class?Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2FSystem.Transactions.dll&quot; Namespace%3DSystem.Transactions Type%3DTransactionScope"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="10161785-3324-4df4-ad84-675fc8f3bb7c"
+            name="class"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="95e18720-12d2-474f-9789-c6deea080619">
+                <propertyInstance
+                  Id="0d95b566-80db-4fa5-88ee-254e113e8d79"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="46c6d3ed-ba0f-477f-ae4f-ebdb5b27e7d4">
+                <propertyInstance
+                  Id="e1e1fade-9bd4-4b31-a525-553c0fd89eb4"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ec42bb5b-3c9d-4bc8-bc53-ea5461b7f996">
+                <propertyInstance
+                  Id="0d786403-93aa-4651-bf10-50444262213f"
+                  name="IsStatic"
+                  value="False" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="76ab097d-08d4-40f7-bec1-546e2172cbe9">
+                <propertyInstance
+                  Id="e338dc86-0928-4e47-a587-20cb13af98c6"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="150de825-01dc-41df-8e06-e9e994161fd7">
+                <propertyInstance
+                  Id="37ff877a-09f2-486a-9314-63bc10718e1c"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <suppliersInternal>
+          <interfaceRealization
+            Id="8f62ad63-0353-4688-8935-10a867020ba6">
+            <interfaceMoniker
+              Id="ba57506d-424a-496b-9ca0-7f10d8a4d049"
+              LastKnownName="IDisposable"
+              LastKnownLocation="Package3_1304.uml" />
+          </interfaceRealization>
+        </suppliersInternal>
+      </class>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

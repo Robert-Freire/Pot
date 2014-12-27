@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:dm0="http://schemas.microsoft.com/VisualStudio/2008/DslTools/Core" xmlns:dm1="http://schemas.microsoft.com/dsltools/Kernel" xmlns:dm2="http://schemas.microsoft.com/dsltools/Component" xmlns:dm3="http://schemas.microsoft.com/dsltools/UseCase" xmlns:dm4="http://schemas.microsoft.com/dsltools/Activity" xmlns:dm5="http://schemas.microsoft.com/dsltools/Interaction" xmlns:dm6="http://schemas.microsoft.com/dsltools/UmlModelLibrary" xmlns:dm7="http://schemas.microsoft.com/dsltools/UmlDiagrams" xmlns:dm8="http://schemas.microsoft.com/dsltools/LogicalClassDesigner"
+  dslVersion="1.0.0.0"
+  Id="b9578777-06cd-4e60-a59b-8167e6b38c87"
+  name="Pot"
+  visibility="Private" xmlns="http://schemas.microsoft.com/dsltools/ModelStore">
+  <referencesInternal>
+    <reference
+      Id="b7f1f9bb-8517-471c-a6a0-ec1b9099d92c"
+      handle="viewcode://./CodeSchema_Namespace?Namespace%3DPot.Data.BoundedContext.Pot"
+      tag="ViewCode" />
+  </referencesInternal>
+  <packagedElements>
+    <packageHasNamedElement>
+      <Interface
+        Id="292ae01a-ce5a-4d03-ba80-a2f764d24c86"
+        name="IUserRepository"
+        isAbstract="false"
+        isLeaf="false">
+        <referencesInternal>
+          <reference
+            Id="25094dcb-e4fe-43d3-a84a-279655351967"
+            handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPot%2FPot%2FPot.Data%2Fbin%2FDebug%2FPot.Data.dll Namespace%3DPot.Data.BoundedContext.Pot Type%3DIUserRepository"
+            tag="ViewCode" />
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="b9e46fe8-26aa-4bca-82a8-9b3d7a3dd82c"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="9d6be8df-d56c-413d-bc90-75eb1e519fc2">
+                <propertyInstance
+                  Id="0a296d29-3b52-4072-b9a1-006e0984cee0"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ba6beafe-787c-445f-b09b-ba6013f80a2b">
+                <propertyInstance
+                  Id="c258eb4a-e4dc-43bc-99ec-4e438b5dffd2"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="ba0cc432-473a-4b09-aa7b-92b15cd8bd26">
+                <propertyInstance
+                  Id="58d34415-d114-49f0-a937-83835599362f"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="b6e144f7-5b49-4f47-b351-4fd70f497697">
+                <propertyInstance
+                  Id="9927ebbd-bee1-4451-a16d-9d5e4dfd10c8"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <generalsInternal>
+          <generalization
+            Id="860bdd63-fe23-4f1f-bf80-c199b21db7b3"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="8888c434-0de3-4d8e-b2d8-6cbf5e9d2c92"
+              LastKnownName="IRepositoryAsync&lt;User‎&gt;"
+              LastKnownLocation="Package2_1304.uml" />
+          </generalization>
+          <generalization
+            Id="2bde3fcc-4344-46e0-9162-457a50530661"
+            isSubstitutable="false">
+            <interfaceMoniker
+              Id="bae08371-d8f8-4b5b-9660-bab40e6cf8b9"
+              LastKnownName="IRepositoryAsync"
+              LastKnownLocation="Package2_1304.uml" />
+          </generalization>
+        </generalsInternal>
+      </Interface>
+    </packageHasNamedElement>
+  </packagedElements>
+</package>

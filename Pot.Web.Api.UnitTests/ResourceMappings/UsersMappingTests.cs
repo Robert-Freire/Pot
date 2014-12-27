@@ -36,7 +36,7 @@ namespace Pot.Web.Api.Unit.Tests
         public void Users_MapToResource_ResourceIsMapped()
         {
             // Arrange
-            var user = new User { Name = "User", UserId = Guid.NewGuid() };
+            var user = new User { UserName = "User", UserId = Guid.NewGuid() };
 
             // Action
             var userResource = new UserResource().MapFrom(user);
@@ -52,7 +52,7 @@ namespace Pot.Web.Api.Unit.Tests
         public void UsersResource_MapToUser_UserIsmapped()
         {
             // Arrange
-            var userResource = new UserResource { Name = "Cliente1" };
+            var userResource = new UserResource { UserName = "Cliente1" };
 
             // Act
             var user = userResource.MapTo();
@@ -68,8 +68,8 @@ namespace Pot.Web.Api.Unit.Tests
         public void UsersResource_MapToExistingUser_UserIsmapped()
         {
             // Arrange
-            var user = new User { UserId = Guid.NewGuid(), Name = "Original name" };
-            var userResource = new UserResource { UserId = Guid.NewGuid(), Name = "Modified name" };
+            var user = new User { UserId = Guid.NewGuid(), UserName = "Original name" };
+            var userResource = new UserResource { UserId = Guid.NewGuid(), UserName = "Modified name" };
 
             // Action
             var modifiedUser = userResource.MapTo(user);

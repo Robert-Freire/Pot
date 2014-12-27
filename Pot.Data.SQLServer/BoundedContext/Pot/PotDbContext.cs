@@ -4,7 +4,9 @@ namespace Pot.Data.SQLServer
 
     using global::Pot.Data.Model;
 
-    public class PotDbContext : DbContext
+    using Microsoft.AspNet.Identity.EntityFramework;
+
+    public class PotDbContext : IdentityDbContext<IdentityUser>
     {
         public PotDbContext()
             : base("name=Pot")
@@ -17,10 +19,11 @@ namespace Pot.Data.SQLServer
 
         public virtual DbSet<ProjectUser> ProjectUsers { get; set; }
 
-        public virtual DbSet<User> Users { get; set; }
-
+        public virtual DbSet<User> AppUsers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Expense>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 4);
@@ -49,9 +52,9 @@ namespace Pot.Data.SQLServer
                 .HasForeignKey(e => new { e.UserId, e.ProjectId })
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<User>()
-                .Property(e => e.Version)
-                .IsFixedLength();
+            //modelBuilder.Entity<User>()
+            //    .Property(e => e.Version)
+            //    .IsFixedLength();
 
             modelBuilder.Entity<User>()
                 .HasMany(e => e.Expenses)
@@ -62,6 +65,12 @@ namespace Pot.Data.SQLServer
                 .HasMany(e => e.ProjectUsers)
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
+
+            // Change the name of the table to be Users instead of AspNetUsers
+            //modelBuilder.Entity<IdentityUser>()
+            //    .ToTable("User");
+            //modelBuilder.Entity<User>()
+            //    .ToTable("User");
         }
     }
 }

@@ -11,6 +11,8 @@ namespace Pot.Web.Api.Unit.Tests
 {
     using System.Data.Entity;
 
+    using Moq;
+
     using Pot.Data;
     using Pot.Data.Infraestructure;
     using Pot.Data.Model;
@@ -21,7 +23,8 @@ namespace Pot.Web.Api.Unit.Tests
     /// </summary>
     internal class UserFactoryFake : UserFactory, IUserFactory
     {
-        private readonly IRepositoryAsync<User> userRepository;
+        private readonly PotDbContext potDbContext;
+        private readonly Mock<IRepositoryAsync<User>> userRepositoryMock;
 
         ///// <summary>
         ///// The customer repository mock.
@@ -63,14 +66,15 @@ namespace Pot.Web.Api.Unit.Tests
         {
             get
             {
-                return this.userRepository;
+                return new UserRepositoryFake(this.potDbContext, this.userRepositoryMock);
             }
         }
 
-        public UserFactoryFake(PotDbContext dbContext, IRepositoryAsync<User> userRepository)
+        public UserFactoryFake(PotDbContext dbContext, Mock<IRepositoryAsync<User>> userRepositoryMock)
             : base(dbContext)
         {
-            this.userRepository = userRepository;
+            this.potDbContext = dbContext;
+            this.userRepositoryMock = userRepositoryMock;
         }
     }
 }

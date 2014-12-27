@@ -1,0 +1,26 @@
+{
+  "name": "Pot.Web.Client",
+  "title": "Pot Web Client",
+  "description": "Web Client for Pot Solution",
+  "version": "0.1.0",
+  "homepage": "https://github.com/robert.freire/Pot.Web.Client",
+  "author": {
+    "name": "robert.freire",
+    "email": "robert.freire@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/robert.freire/Pot.Web.Client.git"
+  },
+  "bugs": "https://github.com/robert.freire/Pot.Web.Client/issues",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/robert.freire/Pot.Web.Client/blob/master/LICENSE-MIT"
+    }
+  ],
+  "dependencies": {
+    "jquery": "*"
+  },
+  "keywords": []
+}
