@@ -1,4 +1,4 @@
-﻿namespace Pot.Web.Api.Unit.Tests
+﻿namespace Pot.Web.Api.Tests.Utils
 {
     using System;
     using System.Net.Http;
@@ -14,7 +14,8 @@
 
     internal static class UserTestExtension
     {
-        static int cont = 0;
+        private static int cont = 0;
+
         internal static UserResource GetDefault()
         {
             cont++;

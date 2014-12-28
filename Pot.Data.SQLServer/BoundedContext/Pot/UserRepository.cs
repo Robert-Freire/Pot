@@ -6,10 +6,10 @@
     using Pot.Data.Model;
     using Pot.Data.SQLServer.Utis;
 
-    public class UsersRepository : Repository<User>
+    public class UserRepository : Repository<User>
     {
         private readonly UserManager<User> userManager;
-        public UsersRepository(PotDbContext potDbContext)
+        public UserRepository(PotDbContext potDbContext)
             : base(potDbContext)
         {
             this.userManager = new UserManager<User>(new UserStore<User>(potDbContext));

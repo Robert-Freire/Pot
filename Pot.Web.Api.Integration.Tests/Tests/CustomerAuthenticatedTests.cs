@@ -26,7 +26,7 @@ namespace NWL.Web.API.OWIN.Integration.Tests
     using Pot.Web.Api.Controllers;
     using Pot.Web.Api.Integration.Tests.Utils;
     using Pot.Web.Api.Model;
-    using Pot.Web.Api.Unit.Tests;
+    using Pot.Web.Api.Tests.Utils;
 
     /// <summary>
     /// The customer OWIN authenticated tests.
@@ -190,12 +190,12 @@ namespace NWL.Web.API.OWIN.Integration.Tests
                 // Assert Response
                 response.Should().NotBeNull();
                 response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer with mail {0} has to be created but fails for {1}", userToAdd.Email, response.Content.ReadAsStringAsync().Result);
-                response.ShouldBeEquivalentTo(userToAdd);
+                UserTestExtension.ShouldBeEquivalentTo(response, userToAdd);
 
 
                 // Assert DB
                 var customerSaved = this.GetUser(response.GetUserResource().UserId);
-                response.ShouldBeEquivalentTo(customerSaved);
+                UserTestExtension.ShouldBeEquivalentTo(response, customerSaved);
             }
         }
 

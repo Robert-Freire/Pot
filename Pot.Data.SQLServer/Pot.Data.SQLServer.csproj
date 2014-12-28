@@ -57,7 +57,7 @@
   <ItemGroup>
     <Compile Include="BoundedContext\Pot\UserFactory.cs" />
     <Compile Include="BoundedContext\Pot\PotDbContext.cs" />
-    <Compile Include="BoundedContext\Pot\UsersRepository.cs" />
+    <Compile Include="BoundedContext\Pot\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utis\ContextFactory.cs" />
     <Compile Include="Utis\Repository.cs" />

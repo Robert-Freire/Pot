@@ -25,6 +25,7 @@ namespace Pot.Web.Api
         internal static void Initialize()
         {
             UserResource.InitializeMappings();
+            ProjectResource.InitializeMappings();
         }
     }
 }

@@ -141,11 +141,13 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\ProjectsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Exceptions\ElmahExceptionLogger.cs" />
     <Compile Include="Exceptions\ErrorLog.cs" />
     <Compile Include="Extensions\ApiControllerExtension.cs" />
     <Compile Include="Extensions\TaskExtensions.cs" />
+    <Compile Include="Model\ProjectResource.cs" />
     <Compile Include="Model\UserResource.cs" />
     <Compile Include="Model\IMapResource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

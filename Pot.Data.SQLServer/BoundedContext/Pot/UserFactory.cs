@@ -21,7 +21,7 @@
         {
             get
             {
-                return new UsersRepository(potDbContext);
+                return new UserRepository(potDbContext);
             }
 
         }

@@ -17,6 +17,7 @@ namespace Pot.Web.Api.Unit.Tests
 
     using Pot.Data.Model;
     using Pot.Web.Api.Model;
+    using Pot.Web.Api.Tests.Utils;
 
     /// <summary>
     /// The users mappings.
