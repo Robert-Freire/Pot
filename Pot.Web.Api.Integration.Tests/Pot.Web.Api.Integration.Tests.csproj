@@ -112,9 +112,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Tests\ProjectAuthenticatedTests.cs" />
     <Compile Include="Utils\BaseAuthenticatedTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\CustomerAuthenticatedTests.cs" />
+    <Compile Include="Tests\UserAuthenticatedTests.cs" />
     <Compile Include="Tests\UnityResolverTests.cs" />
     <Compile Include="Utils\BaseServerTest.cs" />
     <Compile Include="Utils\TestsSeedsInitializer.cs" />

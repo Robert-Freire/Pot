@@ -10,18 +10,16 @@
 
     public class UserFactory : ContextFactory, IUserFactory
     {
-        private PotDbContext potDbContext;
         public UserFactory(PotDbContext dbContext)
             : base(dbContext)
         {
-            potDbContext = dbContext;
         }
 
       public virtual IRepositoryAsync<User> UsersRepository
         {
             get
             {
-                return new UserRepository(potDbContext);
+                return new UserRepository(PotDbContext);
             }
 
         }

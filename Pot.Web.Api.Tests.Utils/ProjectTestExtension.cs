@@ -58,10 +58,10 @@
             projectResource.ShouldBeEquivalentToProject(project);
         }
 
-        internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, UserResource user)
+        internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, ProjectResource project)
         {
             var projectResource = GetProjectResource(response);
-            projectResource.ShouldBeEquivalentTo(user);
+            projectResource.ShouldBeEquivalentTo(project, opt => opt.Excluding(p => p.Version));
             //            userResource.ShouldBeEquivalentTo(user, opt=> opt.Excluding(f => f.Version));
         }
     }

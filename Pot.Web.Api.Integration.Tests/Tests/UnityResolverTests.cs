@@ -1,4 +1,4 @@
-﻿namespace Pot.Web.Api.Integration.Tests.Tests
+﻿namespace Pot.Web.Api.Integration.Tests
 {
     using System.Web.Http;
     using System.Web.Http.Dependencies;
@@ -44,6 +44,13 @@
         {
             var customerController = this.resolver.GetService(typeof(UsersController));
             customerController.Should().BeOfType<UsersController>();
+        }
+
+        [Test]
+        public void ProjectController_IsResolved_GetAProjectController()
+        {
+            var projectController = this.resolver.GetService(typeof(ProjectsController));
+            projectController.Should().BeOfType<ProjectsController>();
         }
     }
 }

@@ -1,13 +1,13 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="CustomerAuthenticatedTests.cs" company="Nova Language Services">
+// <copyright file="UserAuthenticatedTests.cs" company="Nova Language Services">
 //   Copyright © Nova Language Services 2014
 // </copyright>
 // <summary>
-//   The customer OWIN authenticated tests.
+//   The user OWIN authenticated tests.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace NWL.Web.API.OWIN.Integration.Tests
+namespace Pot.Web.Api.Integration.Tests
 {
     using System;
     using System.Collections.Generic;
@@ -22,17 +22,16 @@ namespace NWL.Web.API.OWIN.Integration.Tests
     using Pot.Data.Infraestructure;
     using Pot.Data.Model;
     using Pot.Data.SQLServer;
-    using Pot.Web.Api;
     using Pot.Web.Api.Controllers;
     using Pot.Web.Api.Integration.Tests.Utils;
     using Pot.Web.Api.Model;
     using Pot.Web.Api.Tests.Utils;
 
     /// <summary>
-    /// The customer OWIN authenticated tests.
+    /// The user OWIN authenticated tests.
     /// </summary>
     [TestFixture]
-    public class CustomerAuthenticatedTests : BaseAuthenticatedTests
+    public class UserAuthenticatedTests : BaseAuthenticatedTests
     {
         /// <summary>
         /// The authorization repository.
@@ -45,9 +44,9 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         private string uri;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CustomerAuthenticatedTests"/> class.
+        /// Initializes a new instance of the <see cref="UserAuthenticatedTests"/> class.
         /// </summary>
-        public CustomerAuthenticatedTests()
+        public UserAuthenticatedTests()
         {
             var authFactory = new UserFactory(new PotDbContext());
             this.userRepository = authFactory.UsersRepository;
@@ -65,10 +64,10 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         }
 
         /// <summary>
-        /// The get all customers if there are two customers then returns two customers.
+        /// The get all users if there are two users then returns two users.
         /// </summary>
         [Test]
-        public void GetAllCustomers_ThereAreAlmosTwoCustomers_ReturnsTwoCustomersOrMore()
+        public void GetAllUsers_ThereAreAlmosTwoUsers_ReturnsTwoUsersOrMore()
         {
             this.uri = UsersController.UriBase;
 
@@ -76,16 +75,16 @@ namespace NWL.Web.API.OWIN.Integration.Tests
             {
                 // Assert
                 response.Should().NotBeNull();
-                var customers = JsonConvert.DeserializeObject<List<UserResource>>(response.Content.ReadAsStringAsync().Result);
-                customers.Count.Should().BeGreaterOrEqualTo(2);
+                var users = JsonConvert.DeserializeObject<List<UserResource>>(response.Content.ReadAsStringAsync().Result);
+                users.Count.Should().BeGreaterOrEqualTo(2);
             }
         }
 
         /// <summary>
-        /// The get customer if there are no customers then returns not found.
+        /// The get user if there are no users then returns not found.
         /// </summary>
         [Test]
-        public void GetCustomer_ThereAreNoCustomer_ReturnsNotFound()
+        public void GetUser_ThereAreNoUser_ReturnsNotFound()
         {
             this.uri = UsersController.UriBase + Guid.NewGuid();
 
@@ -98,10 +97,10 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         }
 
         /// <summary>
-        /// The get customer there are one customers returns customer
+        /// The get user there are one users returns user
         /// </summary>
         [Test]
-        public void GetCustomer_ThereAreCustomer_ReturnsCustomer()
+        public void GetUser_ThereAreUser_ReturnsUser()
         {
             this.uri = UsersController.UriBase + TestsDb.UserOriginal.UserId;
             using (var response = this.GetAsync().Result)
@@ -113,10 +112,10 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         }
 
         /// <summary>
-        /// The update customer if the customer is correct then returns no data.
+        /// The update user if the user is correct then returns no data.
         /// </summary>
         [Test]
-        public void UpdateCustomer_CustomerIsCorrect_ReturnsNoData()
+        public void UpdateUser_UserIsCorrect_ReturnsNoData()
         {
             // Arrange
             var userToModify = this.GetUser(TestsDb.UserDefaultTest.UserId);
@@ -132,38 +131,38 @@ namespace NWL.Web.API.OWIN.Integration.Tests
                 response.StatusCode.Should().Be(HttpStatusCode.NoContent);
 
                 // Assert DB
-                var customer = this.GetUser(BaseServerTest.TestsDb.UserDefaultTest.UserId);
-                customer.UserName.Should().Be(userToModify.UserName);
+                var user = this.GetUser(BaseServerTest.TestsDb.UserDefaultTest.UserId);
+                user.UserName.Should().Be(userToModify.UserName);
             }
         }
 
         /// <summary>
-        /// If one user update a customer and another user try to update with older data the second update returns error
+        /// If one user update a user and another user try to update with older data the second update returns error
         /// </summary>
         //[Test]
-        //public void UpdateCustomer_CustomerIsAlreadyUpdated_ReturnsConcurrencyError()
+        //public void UpdateUser_UserIsAlreadyUpdated_ReturnsConcurrencyError()
         //{
         //    // Arrange
-        //    var customerToModify = this.GetUser(TestsDb.UserDefaultTest.UserId);
-        //    customerToModify.Name = "Modified Customer";
+        //    var userToModify = this.GetUser(TestsDb.UserDefaultTest.UserId);
+        //    userToModify.Name = "Modified User";
 
-        //    this.uri = UsersController.UriBase + customerToModify.UserId;
+        //    this.uri = UsersController.UriBase + userToModify.UserId;
 
         //    // Action
-        //    using (var response = this.PutAsync(customerToModify).Result)
+        //    using (var response = this.PutAsync(userToModify).Result)
         //    {
         //        // Assert Response
         //        response.Should().NotBeNull();
         //        response.StatusCode.Should().Be(HttpStatusCode.NoContent);
         //    }
 
-        //    var olderCustomer = new UserResource().MapFrom(TestsDb.UserDefaultTest);
-        //    olderCustomer.Name = "Concurrent error";
+        //    var olderUser = new UserResource().MapFrom(TestsDb.UserDefaultTest);
+        //    olderUser.Name = "Concurrent error";
 
-        //    this.uri = UsersController.UriBase + olderCustomer.UserId;
+        //    this.uri = UsersController.UriBase + olderUser.UserId;
 
         //    // Action Try to Update client to older values
-        //    using (var response = this.PutAsync(olderCustomer).Result)
+        //    using (var response = this.PutAsync(olderUser).Result)
         //    {
         //        // Assert Response
         //        response.Should().NotBeNull();
@@ -174,10 +173,10 @@ namespace NWL.Web.API.OWIN.Integration.Tests
 
 
         /// <summary>
-        /// The addNew customer if the customer is correct then returns created.
+        /// The addNew user if the user is correct then returns created.
         /// </summary>
         [Test]
-        public void InsertCustomer_CustomerIsCorrect_ReturnsCreated()
+        public void InsertUser_UserIsCorrect_ReturnsCreated()
         {
             // Arrange
             var userToAdd = UserTestExtension.GetDefault();
@@ -189,57 +188,57 @@ namespace NWL.Web.API.OWIN.Integration.Tests
             {
                 // Assert Response
                 response.Should().NotBeNull();
-                response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer with mail {0} has to be created but fails for {1}", userToAdd.Email, response.Content.ReadAsStringAsync().Result);
+                response.StatusCode.Should().Be(HttpStatusCode.Created, "the user with mail {0} has to be created but fails for {1}", userToAdd.Email, response.Content.ReadAsStringAsync().Result);
                 UserTestExtension.ShouldBeEquivalentTo(response, userToAdd);
 
 
                 // Assert DB
-                var customerSaved = this.GetUser(response.GetUserResource().UserId);
-                UserTestExtension.ShouldBeEquivalentTo(response, customerSaved);
+                var userSaved = this.GetUser(response.GetUserResource().UserId);
+                UserTestExtension.ShouldBeEquivalentTo(response, userSaved);
             }
         }
 
         /// <summary>
-        /// The addNew customer if the customer is correct then returns created.
+        /// The addNew user if the user is correct then returns created.
         /// </summary>
         //[Test]
-        //public void InsertCustomer_CustomerIsCorrect_AuthorizationDataIsCreated()
+        //public void InsertUser_UserIsCorrect_AuthorizationDataIsCreated()
         //{
         //    // Arrange
-        //    var customerToAdd = UserTestExtension.GetDefault();
+        //    var userToAdd = UserTestExtension.GetDefault();
 
         //    this.uri = UsersController.UriBase;
 
         //    // Action
-        //    using (var response = this.PostAsync(customerToAdd).Result)
+        //    using (var response = this.PostAsync(userToAdd).Result)
         //    {
         //        // Assert Response
         //        response.Should().NotBeNull();
-        //        response.StatusCode.Should().Be(HttpStatusCode.Created, "the customer fails for {0}", response.Content.ReadAsStringAsync().Result);
+        //        response.StatusCode.Should().Be(HttpStatusCode.Created, "the user fails for {0}", response.Content.ReadAsStringAsync().Result);
 
         //        // Assert DB
-        //        var customerRedirect = JsonConvert.DeserializeObject<User>(response.Content.ReadAsStringAsync().Result);
-        //        var authUser = this.authRepository.FindAsync(customerRedirect.MapTo()).Result;
-        //        authUser.UserName.ShouldBeEquivalentTo(customerRedirect.Name);
+        //        var userRedirect = JsonConvert.DeserializeObject<User>(response.Content.ReadAsStringAsync().Result);
+        //        var authUser = this.authRepository.FindAsync(userRedirect.MapTo()).Result;
+        //        authUser.UserName.ShouldBeEquivalentTo(userRedirect.Name);
         //    }
         //}
 
         /// <summary>
-        /// The addNew customer if the customer is exists then returns error.
+        /// The addNew user if the user is exists then returns error.
         /// </summary>
 
         //[Test]
-        //public void InsertCustomer_CustomerAlreadyExists_ReturnsError()
+        //public void InsertUser_UserAlreadyExists_ReturnsError()
         //{
         //    // Arrange
-        //    var customerToAdd = this.GetUser(TestsDb.UserDefaultTest.UserId);
-        //    customerToAdd.Name = "CustomerAdded";
-        //    customerToAdd.Mail = "mail@mail.com";
+        //    var userToAdd = this.GetUser(TestsDb.UserDefaultTest.UserId);
+        //    userToAdd.Name = "UserAdded";
+        //    userToAdd.Mail = "mail@mail.com";
 
         //    this.uri = UsersController.UriBase;
 
         //    // Action
-        //    using (var response = this.PostAsync(customerToAdd).Result)
+        //    using (var response = this.PostAsync(userToAdd).Result)
         //    {
         //        // Assert Response
         //        response.Should().NotBeNull();
@@ -248,47 +247,47 @@ namespace NWL.Web.API.OWIN.Integration.Tests
         //}
 
         /// <summary>
-        /// The delete customer if the customer is correct then returns delete.
+        /// The delete user if the user is correct then returns delete.
         /// </summary>
         [Test]
-        public void DeleteCustomer_CustomerIsCorrect_ReturnsDeleted()
+        public void DeleteUser_UserIsCorrect_ReturnsDeleted()
         {
             // Arrange
-            var customerToAdd = UserTestExtension.GetDefault();
+            var userToAdd = UserTestExtension.GetDefault();
 
             this.uri = UsersController.UriBase;
-            UserResource customerRedirect;
+            UserResource userRedirect;
 
-            using (var response = this.PostAsync(customerToAdd).Result)
+            using (var response = this.PostAsync(userToAdd).Result)
             {
                 response.Should().NotBeNull();
-                customerRedirect = response.GetUserResource();
+                userRedirect = response.GetUserResource();
             }
 
-            this.uri = UsersController.UriBase + customerRedirect.UserId;
+            this.uri = UsersController.UriBase + userRedirect.UserId;
 
             // Action
-            using (var response = this.DeleteAsync(customerRedirect).Result)
+            using (var response = this.DeleteAsync(userRedirect).Result)
             {
                 response.Should().NotBeNull();
                 response.StatusCode.Should().Be(HttpStatusCode.OK);
-                var customer = response.GetUserResource();
-                customer.UserId.Should().Be(customerRedirect.UserId);
+                var user = response.GetUserResource();
+                user.UserId.Should().Be(userRedirect.UserId);
 
                 // AssertBD
-                var customerDeleted = this.GetUser(customer.UserId);
-                customerDeleted.Should().BeNull();
+                var userDeleted = this.GetUser(user.UserId);
+                userDeleted.Should().BeNull();
             }
         }
 
         /// <summary>
-        /// The get customer.
+        /// The get user.
         /// </summary>
         /// <param name="userId">
-        /// The customer id.
+        /// The user id.
         /// </param>
         /// <returns>
-        /// The <see cref="CustomerResource"/>.
+        /// The <see cref="UserResource"/>.
         /// </returns>
         private UserResource GetUser(Guid userId)
         {
@@ -301,7 +300,5 @@ namespace NWL.Web.API.OWIN.Integration.Tests
                     : null;
             }
         }
-
-        // TODO Al crear un cliente si el usuario esta autentificado se graba como usuario de creacion el usuario de la sesion
     }
 }

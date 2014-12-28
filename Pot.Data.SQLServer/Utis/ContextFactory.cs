@@ -11,15 +11,23 @@
     public class ContextFactory : IContextFactoryAsync
     {
 
-        private readonly DbContext dbContext;
+        private readonly PotDbContext potDbContext;
+
+        protected PotDbContext PotDbContext
+        {
+            get
+            {
+                return this.potDbContext;
+            }
+        }
 
         /// <summary>
         /// The unit of work async.
         /// </summary>
         private IUnitOfWorkAsync unitOfWorkAsync;
-        protected ContextFactory(DbContext dbContext)
+        public ContextFactory(PotDbContext potDbContext)
         {
-            this.dbContext = dbContext;
+            this.potDbContext = potDbContext;
         }
 
         /// <summary>
@@ -29,7 +37,7 @@
         {
             get
             {
-                return this.unitOfWorkAsync ?? (this.unitOfWorkAsync = new UnitOfWork(this.dbContext));
+                return this.unitOfWorkAsync ?? (this.unitOfWorkAsync = new UnitOfWork(this.potDbContext));
             }
 
             protected set
@@ -45,7 +53,7 @@
         {
             get
             {
-                return this.dbContext;
+                return this.potDbContext;
             }
         }
 
@@ -60,7 +68,7 @@
         /// </returns>
         public virtual IRepositoryAsync<T> GetRepositoryAsync<T>() where T : class
         {
-            return new Repository<T>(this.dbContext);
+            return new Repository<T>(this.potDbContext);
         }
 
         /// <summary>
@@ -87,7 +95,7 @@
                     this.unitOfWorkAsync.Dispose();
                 }
 
-                this.dbContext.Dispose();
+                this.potDbContext.Dispose();
             }
         }
     }

@@ -14,7 +14,9 @@ namespace Pot.Web.Api
     using Microsoft.Practices.Unity;
 
     using Pot.Data;
+    using Pot.Data.Infraestructure;
     using Pot.Data.SQLServer;
+    using Pot.Data.SQLServer.Utis;
 
     /// <summary>
     /// The unity config.
@@ -36,7 +38,9 @@ namespace Pot.Web.Api
 
             var container = new UnityContainer();
 
-            container.RegisterType<IUserFactory, UserFactory>();
+            container.RegisterType<IUserFactory, UserFactory>()
+                     .RegisterType<IContextFactoryAsync, ContextFactory>();
+
              //        .RegisterType<IPotContext, CustomerContext>(new HierarchicalLifetimeManager());
 
 

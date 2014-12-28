@@ -34,6 +34,7 @@ namespace Pot.Web.Api.Integration.Tests.Utils
             }
 
             this.AddTestsUsers(context);
+            this.AddTestsProjects(context);
         }
 
         private User userOriginal;
@@ -55,12 +56,17 @@ namespace Pot.Web.Api.Integration.Tests.Utils
                        ?? (this.userDefaultTest = new User { Email = "test1@test.com", UserName  = "tes1", UserId = Guid.NewGuid() });
             }
         }
-        /// <summary>
-        /// The customers tests seeds initializer.
-        /// </summary>
-        /// <param name="context">
-        /// The context.
-        /// </param>
+
+        private Project projectDefaultTest;
+        public Project ProjectDefaultTest
+        {
+            get
+            {
+                return this.projectDefaultTest
+                       ?? (this.projectDefaultTest = new Project { Name = "project test", ProjectId = Guid.NewGuid() });
+            }
+        }
+
         private void AddTestsUsers(PotDbContext context)
         {
            var user2 = new User { Email = "test2@test.com", UserName = "tes2", UserId = Guid.NewGuid() };
@@ -68,6 +74,11 @@ namespace Pot.Web.Api.Integration.Tests.Utils
             context.AppUsers.Add(this.UserDefaultTest);
             context.AppUsers.Add(user2);
             context.AppUsers.Add(this.UserOriginal);
+        }
+
+        private void AddTestsProjects(PotDbContext context)
+        {
+            context.Projects.Add(this.ProjectDefaultTest);
         }
     }
 }
