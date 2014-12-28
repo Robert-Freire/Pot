@@ -41,6 +41,8 @@ namespace Pot.Web.Api
 
             this.ConfigureOAuth(app);
 
+            AutomapperConfig.Initialize();
+
             config.RegisterWebApi();
             config.RegisterUnityComponents();
 

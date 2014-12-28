@@ -22,6 +22,7 @@
             {
                 UserName = "Customer" + cont,
                 UserId = Guid.NewGuid(),
+                Password = "Customer" + cont,
                 Email = "newMail@mail.com"
             };
         }
@@ -64,7 +65,7 @@
         internal static void ShouldBeEquivalentTo(this HttpResponseMessage response, UserResource user)
         {
             var userResource = GetUserResource(response);
-            userResource.ShouldBeEquivalentTo(user);
+            userResource.ShouldBeEquivalentTo(user, opt => opt.Excluding(v => v.Password));
 //            userResource.ShouldBeEquivalentTo(user, opt=> opt.Excluding(f => f.Version));
         }
     }
