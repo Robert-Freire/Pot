@@ -59,9 +59,14 @@
   <ItemGroup>
     <Content Include=".jshintrc" />
     <Content Include="app\app.js" />
+    <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
+    <Content Include="app\controllers\loginController.js" />
+    <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authService.js" />
     <Content Include="app\views\home.html" />
+    <Content Include="app\views\login.html" />
+    <Content Include="app\views\signup.html" />
     <Content Include="bower_components\angular-bootstrap\ui-bootstrap-tpls.js" />
     <Content Include="bower_components\angular-bootstrap\ui-bootstrap-tpls.min.js" />
     <Content Include="bower_components\angular-local-storage\dist\angular-local-storage.js" />

@@ -1,0 +1,24 @@
+{
+  "name": "Pot.Web.Client",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Robert-Freire/Pot",
+  "authors": [
+    "Robert-Freire <robert.freire@gmail.com>"
+  ],
+  "description": "Client for Pot project",
+  "main": "Index.html",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-bootstrap": "~0.12.0",
+    "angular": "1.3.8",
+    "bootstrap": "~3.3.1"
+  }
+}
