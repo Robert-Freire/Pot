@@ -114,6 +114,11 @@ namespace Pot.Web.Api.Controllers
         [AllowAnonymous]
         public async Task<IHttpActionResult> PostProject(ProjectResource project)
         {
+            if (project.ProjectId == Guid.Empty)
+            {
+                project.ProjectId = Guid.NewGuid();
+            }
+
             var result = await this.Post(project.ProjectId, project);
 
             var response = result as OkNegotiatedContentResult<Project>;

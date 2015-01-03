@@ -35,12 +35,7 @@ namespace Pot.Web.Api.Model
             return Mapper.Map(this, entity);
         }
 
-        public UserResource MapFrom(User entity)
-        {
-            return entity == null ? null : Mapper.Map<UserResource>(entity);
-        }
-
-        internal static void InitializeMappings()
+       internal static void InitializeMappings()
         {
             Mapper.CreateMap<Project, ProjectResource>();
 

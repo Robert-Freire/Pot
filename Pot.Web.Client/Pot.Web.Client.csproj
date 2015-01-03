@@ -62,10 +62,16 @@
     <Content Include="app\controllers\homeController.js" />
     <Content Include="app\controllers\indexController.js" />
     <Content Include="app\controllers\loginController.js" />
+    <Content Include="app\controllers\projectEditController.js" />
+    <Content Include="app\controllers\projectNewController.js" />
+    <Content Include="app\controllers\projectsListController.js" />
     <Content Include="app\controllers\signupController.js" />
     <Content Include="app\services\authService.js" />
+    <Content Include="app\services\projectsService.js" />
     <Content Include="app\views\home.html" />
     <Content Include="app\views\login.html" />
+    <Content Include="app\views\project.html" />
+    <Content Include="app\views\projects.html" />
     <Content Include="app\views\signup.html" />
     <Content Include="bower_components\angular-bootstrap\ui-bootstrap-tpls.js" />
     <Content Include="bower_components\angular-bootstrap\ui-bootstrap-tpls.min.js" />

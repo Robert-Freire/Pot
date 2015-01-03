@@ -82,15 +82,8 @@
         /// </returns>
         protected async Task<IQueryable<TResource>> GetAll()
         {
-            try
-            {
-                var entities = await this.baseRepository.Queryable().ToListAsync();
-                return entities.AsQueryable().Select(entity => this.mapResource.MapFrom(entity));
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            var entities = await this.baseRepository.Queryable().ToListAsync();
+            return entities.AsQueryable().Select(entity => this.mapResource.MapFrom(entity));
 
 
             // TODO revisar el posible cambio a proyecciones

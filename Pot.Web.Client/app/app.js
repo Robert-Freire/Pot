@@ -18,6 +18,16 @@ app.config(function ($routeProvider) {
         templateUrl: "/app/views/signup.html"
     });
 
+    $routeProvider.when("/projects", {
+        controller: "projectsListController",
+        templateUrl: "/app/views/projects.html"
+    });
+
+    $routeProvider.when("/projects/:projectId", {
+        controller: "projectEditController",
+        templateUrl: "/app/views/project.html"
+    });
+
     $routeProvider.otherwise({ redirectTo: "/home" });
 
 });
