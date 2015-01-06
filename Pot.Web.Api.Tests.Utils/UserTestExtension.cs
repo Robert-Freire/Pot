@@ -37,8 +37,8 @@
         {
            // user.ShouldBeEquivalentTo(userResource, opt => opt.Excluding(e => e.Version).ExcludingMissingProperties());
             user.ShouldBeEquivalentTo(userResource, opt => opt.ExcludingMissingProperties());
-
         }
+
         internal static void ShouldBeEquivalentToUser(this UserResource userResource, User user)
         {
             //userResource.ShouldBeEquivalentTo(
@@ -47,7 +47,13 @@
             userResource.ShouldBeEquivalentTo(
                           user,
                           opt => opt.ExcludingMissingProperties().ExcludingNestedObjects());
+        }
 
+        internal static void ShouldBeEquivalentToProjectUser(this UserResource userResource, ProjectUser projectUser)
+        {
+            userResource.ShouldBeEquivalentTo(
+                          projectUser,
+                          opt => opt.ExcludingMissingProperties().ExcludingNestedObjects());
         }
 
         internal static void ShouldBeEquivalent(this IHttpActionResult result, User user)

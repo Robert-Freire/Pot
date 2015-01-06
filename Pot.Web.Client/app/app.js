@@ -24,7 +24,7 @@ app.config(function ($routeProvider) {
     });
 
     $routeProvider.when("/projects/:projectId", {
-        controller: "projectEditController",
+        controller: "projectController",
         templateUrl: "/app/views/project.html"
     });
 

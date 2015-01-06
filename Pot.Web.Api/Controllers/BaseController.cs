@@ -118,6 +118,26 @@
             return this.Ok(this.mapResource.MapFrom(entity));
         }
 
+        protected async Task<IQueryable<TResource>> GetFiltered(Expression<Func<T, bool>> predicate, IEnumerable<Expression<Func<T, object>>> includes)
+        {
+            var queryable = this.baseRepository.Queryable();
+            if (predicate != null)
+            {
+                queryable = queryable.Where(predicate);
+            }
+
+            if (includes != null)
+            {
+                queryable = includes.Aggregate(queryable, (current, path) => current.Include(path));
+            }
+
+            var entities = await queryable.ToListAsync();
+            return entities.AsQueryable().Select(entity => this.mapResource.MapFrom(entity));
+
+            // TODO revisar el posible cambio a proyecciones
+            // return entities.AsQueryable().Project().To<TResource>();
+        }
+
         ///// <summary>
         ///// The put.
         ///// </summary>
@@ -264,17 +284,42 @@
         ///     If data has already been updated for other process:     Conflict Response       (409)       
         ///     If all is ok:                                           Ok Response             (200)          
         /// </remarks>
-        protected async Task<IHttpActionResult> Post(Guid id, TResource resourceToInsert, string createdUser = null)
+        protected async Task<IHttpActionResult> Post(TResource resourceToInsert, Guid? id = null, Expression<Func<T, bool>> predicate = null)
         {
             if (!this.ModelState.IsValid)
             {
-                return this.BadRequest(this.ModelState);
+                return null;
             }
 
-            var customerToInsert = resourceToInsert.MapTo();
-            
-            customerToInsert = this.baseRepository.Insert(customerToInsert);
+            var entityToInsert = resourceToInsert.MapTo();
 
+            if (entityToInsert == null)
+            {
+                return this.BadRequest();
+            }
+
+            entityToInsert = this.baseRepository.Insert(entityToInsert);
+
+            return await this.SavePost(entityToInsert, id, predicate);
+        }
+
+        /// <summary>
+        /// The save post.
+        /// </summary>
+        /// <param name="entityToInsert">
+        /// The entity to insert.
+        /// </param>
+        /// <param name="id">
+        /// The id.
+        /// </param>
+        /// <param name="predicate">
+        /// The predicate.
+        /// </param>
+        /// <returns>
+        /// The <see cref="Task"/>.
+        /// </returns>
+        protected async Task<IHttpActionResult> SavePost(T entityToInsert, Guid? id = null, Expression<Func<T, bool>> predicate = null)
+        {
             try
             {
                 var result = await this.unitOfWorkAsync.SaveChangesAsync().WithCurrentCulture();
@@ -283,7 +328,7 @@
                     var err = new ValidationException(result.Errors.ToString());
                     ErrorLog.LogError(err, result.Errors.ToString());
 
-                    return ApiControllerExtension.ValidationsErrorResult(this, result.Errors.ToList());
+                    return this.ValidationsErrorResult(result.Errors.ToList());
                 }
             }
             catch (DbUpdateConcurrencyException ex)
@@ -296,8 +341,17 @@
             {
                 ErrorLog.LogError(ex);
 
-                var customerExists = this.baseRepository.Find(id);
-                if (customerExists != null)
+                T entityExists = null;
+                if (id != null)
+                {
+                    entityExists = this.baseRepository.Find(id);
+                }
+                else if (predicate != null)
+                {
+                    entityExists = this.baseRepository.Queryable().SingleOrDefault(predicate);
+                }
+
+                if (entityExists != null)
                 {
                     return this.Conflict();
                 }
@@ -305,8 +359,9 @@
                 throw;
             }
 
-            return this.Ok(customerToInsert);
+            return this.Ok(entityToInsert);
         }
+
 
         ///// <summary>
         ///// The delete.

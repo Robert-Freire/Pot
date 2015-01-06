@@ -110,12 +110,7 @@
         [AllowAnonymous]
         public async Task<IHttpActionResult> PostUser(UserResource users)
         {
-            var createdUser = (this.User == null) || (this.User.Identity == null)
-                              || string.IsNullOrWhiteSpace(this.User.Identity.Name)
-                ? users.UserName
-                : this.User.Identity.Name;
-
-            var result = await this.Post(users.UserId, users, createdUser);
+            var result = await this.Post(users, users.UserId);
 
             var response = result as OkNegotiatedContentResult<User>;
             if (response != null)

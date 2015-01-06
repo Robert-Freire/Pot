@@ -12,16 +12,16 @@ app.factory('projectsService', ['$http', 'ngAuthSettings', function ($http, ngAu
         });
     };
 
-    var _getProject = function (idProject) {
+    var _getProject = function (projectId) {
 
-        return $http.get(serviceBase + 'api/projects/' + idProject).then(function (results) {
+        return $http.get(serviceBase + 'api/projects/' + projectId).then(function (results) {
             return results;
         });
     };
 
     var _updateProject = function (project) {
 
-        return $http.put(serviceBase + 'api/projects/' + project.idProject, project).then(function (results) {
+        return $http.put(serviceBase + 'api/projects/' + project.projectId, project).then(function (results) {
             return results;
         });
     };

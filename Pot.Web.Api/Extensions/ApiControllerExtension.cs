@@ -32,7 +32,7 @@ namespace Pot.Web.Api
         /// <returns>
         /// The <see cref="Pot.Web.Api.ValidationsErrorResult"/>.
         /// </returns>
-        public static ValidationsErrorResult ValidationsErrorResult(ApiController controller, IEnumerable<ValidationResult> errors)
+        public static ValidationsErrorResult ValidationsErrorResult(this ApiController controller, IEnumerable<ValidationResult> errors)
         {
             if (controller == null)
             {

@@ -46,6 +46,55 @@ namespace Pot.Web.Api.Unit.Tests
             userResource.ShouldBeEquivalentToUser(user);
         }
 
+        ///// <summary>
+        ///// Check the map from user resource to user
+        ///// </summary>
+        //[Test]
+        //public void UsersResource_MapToProjectUser_projectUserIsmapped()
+        //{
+        //    // Arrange
+        //    var userResource = new UserResource { UserName = "Cliente1"  };
+
+        //    // Act
+        //    var user = userResource.MapTo();
+
+        //    // Assert
+        //    user.ShouldBeEquivalentToUser(userResource);
+        //}
+
+        ///// <summary>
+        ///// Check the map from user resource to existing user
+        ///// </summary>
+        //[Test]
+        //public void UsersResource_MapToExistingUser_UserIsmapped()
+        //{
+        //    // Arrange
+        //    var user = new User { UserId = Guid.NewGuid(), UserName = "Original name" };
+        //    var userResource = new UserResource { UserId = Guid.NewGuid(), UserName = "Modified name" };
+
+        //    // Action
+        //    var modifiedUser = userResource.MapTo(user);
+
+        //    // Assert
+        //    modifiedUser.ShouldBeEquivalentToUser(userResource);
+        //    modifiedUser.GetHashCode().Should().Be(user.GetHashCode());
+        //}
+
+        public void ProjectUsers_MapToResource_ResourceIsMapped()
+        {
+            // Arrange
+            var user = new User { UserName = "User", UserId = Guid.NewGuid() };
+            var project = new Project() { Name = "Project", ProjectId = Guid.NewGuid() };
+
+            var projectUser = new ProjectUser { ProjectId = project.ProjectId, UserId = user.UserId };
+
+            // Action
+            var userResource = new UserResource().MapFrom(projectUser);
+
+            // Assert
+            userResource.ShouldBeEquivalentToProjectUser(projectUser);
+        }
+
         /// <summary>
         /// Check the map from user resource to user
         /// </summary>
@@ -79,5 +128,6 @@ namespace Pot.Web.Api.Unit.Tests
             modifiedUser.ShouldBeEquivalentToUser(userResource);
             modifiedUser.GetHashCode().Should().Be(user.GetHashCode());
         }
+    
     }
 }

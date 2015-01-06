@@ -14,7 +14,8 @@
             <tbody>
 
                 <tr data-ng-repeat="project in projects">
-                    <td><a href="#/projects/{{project.projectId}}">{{ project.name }}</a></td>
+                    <!--<td><a href="#/projects/{{project.projectId}}">{{ project.name }}</a></td>-->
+                    <td><a href="" data-ng-click="editProject(project.projectId)">{{ project.name }}</a></td>
                     <td><a href="" data-ng-click="deleteProject(project.projectId)">delete</a></td>
                 </tr>
                 <tr>

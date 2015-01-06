@@ -1,6 +1,6 @@
 ﻿'use strict';
 
-app.controller('projectsListController', ['$scope', 'projectsService', '$modal', '$route', '$location', function ($scope, projectsService, $modal, $route, $location) {
+app.controller('projectsListController', ['$scope', 'projectsService', '$modal', '$route', function ($scope, projectsService, $modal, $route) {
 
     $scope.projects = [];
 
@@ -22,14 +22,20 @@ app.controller('projectsListController', ['$scope', 'projectsService', '$modal',
         });
     };
 
-    function refresh() {
-        $route.reload();
-    };
+    function getIndexSelectedProject(projectId) {
+        for (var i = 0; i < $scope.projects.length; i++) {
+            if ($scope.projects[i].projectId == projectId) {
+                return i;
+            }
+        }
+        return null;
+    }
+
 
     $scope.newProject = function () {
         var modalInstance = $modal.open({
             templateUrl: 'app/views/project.html',
-            controller: 'projectNewController'
+            controller: 'projectController'
         });
 
         modalInstance.result.then(function (result) {
@@ -37,9 +43,23 @@ app.controller('projectsListController', ['$scope', 'projectsService', '$modal',
         });
     };
 
+    $scope.editProject = function (projectId) {
+        var modalInstance = $modal.open({
+            templateUrl: 'app/views/project.html',
+            controller: 'projectController',
+            resolve: { projectId: function () { return projectId; } }
+        });
+
+        modalInstance.result.then(function (result) {
+            var index = getIndexSelectedProject(projectId);
+            $scope.projects[index].name = result.name;
+        });
+    };
+
     $scope.deleteProject = function (projectId) {
         projectsService.deleteProject(projectId).then(function () {
-            refresh();
+            var index = getIndexSelectedProject(projectId);
+            $scope.projects.splice(index, 1);
         }, function (error) {
             alert('Error deleting' + error.data.message);
         });
